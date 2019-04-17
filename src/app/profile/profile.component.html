@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="pp">
+    <img src="{{ imageValue }}" />
+  </div>
+  <div class="divider"></div>
+  <div class="manu">
+    <h3 class="subtitle">{{ data.text }}</h3>
+    <h2 class="title">{{ data.value }}</h2>
+  </div>
+  <div class="manu">
+    <ul>
+      <li *ngFor="let icon of icons">
+        <a (mouseenter)="mouseOverEvent(icon.name)"
+          ><img src="./assets/icons/svg/misc/{{ icon.name }}.svg"
+        /></a>
+      </li>
+    </ul>
+  </div>
+</div>
