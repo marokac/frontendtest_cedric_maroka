@@ -1,18 +1,24 @@
 import { Component } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { BoundElementPropertyAst } from '@angular/compiler';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  styleUrls: ["./app.component.css"],
+  providers: [DatePipe]
 })
 export class AppComponent {
   UserDatails: any = [];
   reqValue: object = {};
   imageValue: any = "";
-  constructor(private http: HttpClient) {
+  loading:boolean=true;
+  constructor(private http: HttpClient,private datePipe:DatePipe) {
     const user = this.http.get("https://randomuser.me/api/");
+
     user.subscribe((response: any) => {
+      this.loading=false;
       console.log("response --- ", response);
       this.mapresult(response.results);
       this.reqValue = {
@@ -75,7 +81,7 @@ export class AppComponent {
       this.UserDatails.push({
         cell: val.cell,
         email: val.email,
-        dob: val.dob.date,
+        dob: this.datePipe.transform(val.dob.date,'dd/MM/yyyy'),
         gender: val.gender,
         location:
           val.location.street +

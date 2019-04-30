@@ -6,3 +6,13 @@
   position: relative;
   padding-top: 250px;
 }
+.heading{
+  position: absolute;
+  left:240px;
+  top:11px;
+  color:white;
+  font-size: 25px;
+  font-weight: 100;
+  text-transform: uppercase;
+  text-align: center;
+}

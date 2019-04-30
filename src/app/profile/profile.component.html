@@ -1,6 +1,6 @@
 <div class="container">
   <div class="pp">
-    <img src="{{ imageValue }}" />
+    <img *ngIf="!loading"src="{{ imageValue }}" />
   </div>
   <div class="divider"></div>
   <div class="manu">

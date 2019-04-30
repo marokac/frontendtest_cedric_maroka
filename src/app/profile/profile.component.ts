@@ -10,6 +10,7 @@ export class ProfileComponent implements OnInit {
 
   @Input() data: any;
   @Input() imageValue: any;
+  @Input() loading:boolean;
 
   icons = [
     { name: "user" },

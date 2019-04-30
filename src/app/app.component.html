@@ -1,6 +1,10 @@
 <div class="container"></div>
+<div class="heading">
+  <h1>RANDOM USER GENERATOR</h1>
+</div>
 <app-profile
   (valueChange)="valueChangeEvent($event)"
   [imageValue]="imageValue"
   [data]="reqValue"
+  [loading]="loading"
 ></app-profile>
