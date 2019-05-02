@@ -3,11 +3,11 @@
   height: 200px;
   border-radius: 50%;
   position: relative;
-  margin-left: 37%;
   z-index: 2000;
   padding: 2px;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.25);
+  display:inline-block;
 }
 .container {
   margin-left: 50px;
@@ -21,6 +21,7 @@
   background: #fff;
   border-radius: 3px;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  overflow-x: hidden;
 }
 .pp img {
   position: relative;
@@ -50,7 +51,7 @@
 }
 
 .divider {
-  width: 688px;
+  width: 100%;
   padding: 60px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   position: absolute;
@@ -67,7 +68,7 @@
 ul li {
   display: inline;
   padding: 10px;
-  font-size: 18px;
+  font-size: 18px; 
 }
 img {
   width: 25px;
@@ -81,3 +82,5 @@ ul li:active {
   border-top: 5px solid green;
   color: green;
 }
+
+
