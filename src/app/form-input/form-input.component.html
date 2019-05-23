@@ -1,0 +1,104 @@
+<div class="form-group" [formGroup]="parentFormGroup">
+
+  <div fxLayoutAlign="space-between center">
+    <div fxLayout="row">
+        <label id="{{ data.name }}_label" for="{{ data.name }}" *ngIf="data.label && !data.hideLabel">{{ data.label }}</label>
+        <span  class="altLabel" *ngIf="data.altLabel">{{ data.altLabel }}</span>
+        <app-tooltip *ngIf="data.tooltipText" [data]="{
+                contentText: data.tooltipText
+              }">
+        </app-tooltip>
+      </div>
+
+      <span id="{{ data.name }}_description" class="form-group__info" *ngIf="data.info">{{ data.info }}
+        <span *ngIf="data.moreInfo" class="moreInfoLink">{{ data.moreInfo }}
+              <a [routerLink]="[data.infoLink.link, data.infoLink.parameters]"
+                 (keydown)="onInfoLinkNavKeyDown($event, [data.infoLink.link, data.infoLink.parameters] )"
+                 *ngIf="data.infoLink.link">{{ data.infoLink.label }}
+              </a>
+              <a (click)="onInfoLinkNavClick($event)"
+                 (keydown)="onInfoLinkNavClickKeyDown($event)"
+                 *ngIf="!data.infoLink.link">{{ data.infoLink.label }}
+              </a>
+        </span>
+    </span>
+  </div>
+  <!--  -->
+  <div class="input-group" [hidden]="!isVisible" *ngIf="data.formGroupName === undefined">
+    <input
+      (blur)="trimValue($event)"
+      id="{{ data.name }}"
+      type="{{ data.type ? data.type : 'text' }}"
+      name="{{ data.name }}"
+      (focus)="mouseEnter($event)"
+      maxlength="{{ data.maxlength }}"
+      class="form-control {{data.align}} no-spin"
+      placeholder="{{ data.placeholder }}"
+      tabindex="{{ data.tabindex }}"
+      (keyup)="onInputKeyUp($event)"
+      #inputElement
+      [ngClass]="{
+        'submit-clicked': formStatus.submitClicked,
+        'warningInput': data.isWarning,
+        'disabled': data.disabled
+      }"
+      [attr.disabled]="data.disabled ? '' : null"
+      [attr.aria-describedby]="ariaDescribedBy"
+      [attr.aria-label]="ariaLabel"
+      [attr.aria-invalid]="!parentFormGroup.controls[data.name].valid"
+      formControlName="{{ data.name }}">
+      <span *ngIf="data.currencySymbol" class="input__addon"><span class="input__addon-currency-symbol">R</span></span>
+      <span *ngIf="data.icon && !data.iconRight" class="input__addon"><span class="icon-{{ data.icon }}"></span></span>
+      <span *ngIf="data.iconRight" class="input__addon_right"><span class="icon-{{ data.icon }}"></span></span>
+  </div>
+  <!--  -->
+  <div class="input-group" [hidden]="!isVisible" formGroupName="{{ data.formGroupName  }}" *ngIf="data.formGroupName !== undefined">
+    <input
+      id="{{ data.name }}"
+      (blur)="trimValue($event)"
+      type="{{ data.type ? data.type : 'text' }}"
+      name="{{ data.name }}"
+      maxlength="{{ data.maxlength }}"
+      class="form-control {{data.align}} no-spin"
+      placeholder="{{ data.placeholder }}"
+      tabindex="{{ data.tabindex }}"
+      (keyup)="onInputKeyUp($event)"
+      #inputElement
+      [ngClass]="{
+        'submit-clicked': formStatus.submitClicked,
+        'warningInput': data.isWarning,
+        'disabled': data.disabled
+      }"
+      [attr.disabled]="data.disabled ? '' : null"
+      [attr.aria-describedby]="ariaDescribedBy"
+      [attr.aria-label]="ariaLabel"
+      [attr.aria-invalid]="!parentFormGroup.controls[data.name].valid"
+      formControlName="{{ data.name }}"
+      (focus)="mouseEnter($event)"
+      (focusout)="mouseLeave($event)">
+    <span *ngIf="data.currencySymbol" class="input__addon"><span class="input__addon-currency-symbol">R</span></span>
+    <span *ngIf="data.icon && !data.iconRight" class="input__addon"><span class="icon-{{ data.icon }}"></span></span>
+    <span *ngIf="data.iconRight" class="input__addon_right"><span class="icon-{{ data.icon }}"></span></span>
+  </div>
+
+  <div
+    id="err_{{ data.name }}"
+    *ngIf="(data?.formGroupName) ? formStatus.formErrors[data?.formGroupName +'.'+ data.name] : formStatus.formErrors[data.name]"
+    [ngClass]="{'submit-clicked': formStatus.submitClicked && (parentFormGroup.controls[data.name].dirty) || data?.formGroupName !== undefined}"
+    class="form-error"
+    role="alert">
+    <span><span *ngIf="showIcon" class="icon-validation-error validation-message"></span>
+        {{ (data?.formGroupName) ? formStatus.formErrors[data?.formGroupName +'.'+ data.name] : formStatus.formErrors[data.name] }}
+    </span>
+  </div>
+  <div
+    id="warn_{{ data.name }}"
+    *ngIf="(data?.formGroupName) ? formStatus.formWarnings[data?.formGroupName +'.'+ data.name] : formStatus.formWarnings[data.name]"
+    class="form-warning"
+    [ngClass]="{'submit-clicked': formStatus.submitClicked}"
+    role="alert">
+    <span><span class="icon-validation-warning validation-message"></span>
+        {{ (data?.formGroupName) ? formStatus.formformWarnings[data?.formGroupName +'.'+ data.name] : formStatus.formWarnings[data.name] }}
+    </span>
+  </div>
+</div>

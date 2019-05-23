@@ -1,0 +1,105 @@
+@import 'src/styles/common/variables';
+@import 'src/styles/common/mixins';
+// legend {
+//     font-size: 20px;
+//     font-weight: 600;
+//     text-align: left;
+//     color: $graphite-100;
+//     border-bottom: 1px solid $graphite-25;
+//     margin-bottom: 25px;
+//     padding-bottom: 10px;
+//   }
+
+  .important-notice-section{
+    ul{
+      padding: 0px
+    }
+
+    li:first-child{
+      font-weight: 700;
+      font-style: normal;
+      font-size: 13px;
+      color: $popup-bg;
+      //text-align: center;
+      line-height: normal;
+      list-style-type: none;
+      padding: 0px;
+      margin: 0px;
+    }
+
+  }
+  .emptyValue{
+    color:red;
+
+  }
+  form-radio{
+    &:focus{
+      outline: 0;
+    }
+  }
+  :host /deep/ form-radio{
+
+
+   &.has-focus{
+          .radio-group__inner{
+            border-color: $brand-plum-light!important;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16) !important;
+          }
+      }
+    .radio-group__inner{
+      background-color:white !important;
+      border-color: $graphite-25 !important; }
+  }
+
+
+ .float-right {
+  margin-left: auto;
+  display: inline-block;
+}
+.verifyLink{
+  display: flex;
+
+}
+
+.custom-label{
+  border-bottom: 0;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 5px;
+  padding-bottom: 0;
+}
+
+.payAvsLink {
+  margin-bottom: -13px;
+  margin-bottom: -23px;
+}
+
+@media only screen and (min-width: 767px) and (max-width: 1100px) {
+  :host /deep/ form-autocomplete{
+    input::placeholder {
+      font-size: $font-size-medium;
+      color: $graphite-48;
+    }
+  }
+}
+
+@media only screen and (min-width: 767px) and (max-width: 1022px) {
+  :host /deep/ form-radio-group{
+    input{
+      font-size: 14px;
+      &::placeholder {
+        font-size: $font-size-medium;
+        color: $graphite-48;
+      }
+    }
+
+
+}
+}
+.pull-down {
+  margin-top: 25px;
+}
+.form_control{
+//  line-height: 20px;
+  justify-content: center;
+}

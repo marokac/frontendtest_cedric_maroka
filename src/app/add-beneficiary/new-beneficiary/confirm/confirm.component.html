@@ -1,0 +1,153 @@
+<div *ngIf="benExisting.exist" style="margin-bottom: 20px">
+  <alert-messages [data]="{
+        title: 'paymentBeneficiaries.addBeneficiaries.beneficiaryExistAlert.WorningMassage'|translate,
+        note: true,
+        type: 'warning'
+      }">
+  </alert-messages>
+</div>
+<status-panel
+[adobeanalytics]="{pageName:'CB:PaymentBeneficiaries:Normal Beneficiary Confirm Step', formStatus:'complete' }"
+[data]="{title: 'paymentBeneficiaries.label.beneficiaryDetails.confirmStep'|translate, subtitle: '',icon: 'confirm', status: 'confirm'}" fxLayout="column">
+  
+  <div class="section-header">
+    {{'paymentBeneficiaries.label.beneficiaryDetails.resultsStep' | translate}}
+  </div>
+
+  <div fxLayout="row"  fxLayout.lt-md="column" fxLayoutAlign="space-between">
+    <div class="details-form-group phushText" fxFlex.sm="100%" fxFlex="33.33%">
+      <label for="fromAccount" class="control-label">{{ 'pay.label.fullName'|translate }}</label>
+      <div class="controls">
+        <p id="fromAccount" class="form-control-static">{{formData.fullName}}</p>
+      </div>
+    </div>
+    <div class="details-form-group phushText" fxFlex.sm="100%" fxFlex="33.33%">
+      <label for="fromAccount" class="control-label">{{ 'pay.label.bank'| translate }}</label>
+      <div class="controls">
+        <p id="fromAccount" class="form-control-static">{{formData.bank}}</p>
+      </div>
+    </div>
+    <div class="form-grou phushText" fxFlex.sm="100%" fxFlex="33.33%">
+      <label for="fromAccount" class="control-label">{{ 'pay.label.branchCode'| translate }}</label>
+      <div class="controls">
+        <p id="fromAccount" class="form-control-static">{{branchCodeLabel}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row"  fxLayout.lt-md="column" fxLayoutAlign="space-between">
+    <div class="details-form-group phushText" fxFlex.sm="100%" fxFlex="33.33%">
+      <label for="fromAccount" class="control-label">{{ 'pay.label.accountNumber'| translate }}</label>
+      <div class="controls">
+        <p id="fromAccount" class="form-control-static">{{formData.accountNumber}}</p>
+      </div>
+    </div>
+    <div *ngIf="formData.bank!=='Absa'" class="details-form-group phushText" fxFlex.sm="100%" fxFlex="33.33%">
+      <label for="fromAccount" class="control-label">{{ 'pay.label.accountType'| translate }}</label>
+      <div class="controls">
+        <p id="fromAccount" class="form-control-static">{{accountType.label}}</p>
+      </div>
+    </div>
+    <!-- When account type is there  display my referance in the same row as account number & account type -->
+    <div *ngIf="formData.bank!=='Absa'" class="details-form-group phushText" fxFlex.sm="100%" fxFlex="33.33%">
+      <label for="fromAccount" class="control-label">{{ 'pay.label.myreference'|translate }}</label>
+      <div *ngIf="formData.myReference" class="controls">
+        <p id="fromAccount" class="form-control-static">{{formData.myReference}}</p>
+      </div>
+    </div>
+    <!-- When no account type display Benreferance & myRef in the same row as account number  -->
+    <div *ngIf="formData.bank==='Absa'" class="details-form-group phushText" fxFlex.sm="100%" fxFlex="33.33%">
+      <label for="fromAccount" class="control-label">{{ 'pay.label.myreference'|translate }}</label>
+      <div *ngIf="formData.myReference" class="controls">
+        <p id="fromAccount" class="form-control-static">{{formData.myReference}}</p>
+      </div>
+    </div>
+
+    <div *ngIf="formData.bank==='Absa'" class="details-form-group phushText" fxFlex.sm="100%" fxFlex="33.33%">
+      <label for="fromAccount" class="control-label">{{ 'pay.label.beneficiaryReference'|translate }}</label>
+      <div class="controls">
+        <p id="fromAccount" class="form-control-static">{{formData.beneficiaryReference}}</p>
+      </div>
+    </div>
+  </div>
+  <!-- when accout type is threre display benReference to a new row -->
+  <div *ngIf="formData.bank!=='Absa'" fxLayout="row"  fxLayout.lt-md="column" fxLayoutAlign="space-between">
+    <div class="details-form-group phushText" fxFlex.sm="100%" fxFlex="33.33%">
+      <label for="fromAccount" class="control-label">{{ 'pay.label.beneficiaryReference'|translate }}</label>
+      <div class="controls">
+        <p id="fromAccount" class="form-control-static">{{formData.beneficiaryReference}}</p>
+      </div>
+    </div>
+    <div fxFlex.lt-md="0" fxFlex="33.33%"></div>
+    <div class="details-form-group phushText" fxFlex.lt-md="0" fxFlex="33.33%"></div>
+  </div>
+  <br>
+  <!-- notice of payment -->
+  <div class="section-spacing"></div>
+  <div class="section-header">
+    {{'paymentBeneficiaries.history.label.resendNotice.confirmDetails'|translate}}
+  </div>
+
+  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between">
+    <div  class="phushText_radio" fxFlex.lt-md="0" fxFlex="33.33%">
+      <div for="notifyMe" class="notice-of-purchase-header" [ngStyle]="{'margin-top': '-20px'}">
+        {{'paymentBeneficiaries.label.myNotifyOfPayment'|translate}}
+      </div>
+      <label *ngIf="isOwnNone" for="notifyMeTypeLabel" class="control-label">{{notifyMe.sendViaLabel}}</label>
+      <div class="controls">
+        <p id="notifyMeTypeLabel" class="form-control-static">{{notifyMe.sendViaValue}}</p>
+      </div>
+      <label for="notifyMe" class="control-label">{{notifyMe.methodTypeLabel}}</label>
+      <div class="controls">
+        <p id="notifyMe" class="form-control-static">{{notifyMe.methodTypeValue}}</p>
+      </div>
+    </div>
+
+    <div  class="phushText_radio" fxFlex.lt-md="0" fxFlex="33.33%">
+
+      <div for="notifyBeneficiary" class="notice-of-purchase-header" [ngStyle]="{'margin-top': '-20px'}" [ngStyle.lt-md]="{'margin-top': '0px'}">
+        {{'paymentBeneficiaries.label.beneficiaryNotifyOfPayment'|translate}}
+      </div>
+
+      <label *ngIf="benNone" for="notifyBeneficiaryTypeLabel" class="control-label">{{notifyBeneficiary.sendViaLabel}}</label>
+      <div class="controls">
+        <p id="notifyBeneficiaryTypeLabel" class="form-control-static">{{notifyBeneficiary.sendViaValue}}</p>
+      </div>
+
+      <label for="notifyBeneficiary" class="control-label">{{notifyBeneficiary.methodTypeLabel}}</label>
+      <div class="controls">
+        <p id="notifyBeneficiary" class="form-control-static">{{notifyBeneficiary.methodTypeValue }}</p>
+      </div>
+
+      <label *ngIf="notifyBeneficiary.recipientNameValue" for="notifyRecipientNameLabel" class="control-label">{{'paymentBeneficiaries.label.notifyBeneficiaryEmailRecipientName'|translate}}</label>
+      <div *ngIf="notifyBeneficiary.recipientNameValue" class="controls">
+        <p id="notifyRecipientNameLabel" class="form-control-static">{{notifyBeneficiary.recipientNameValue}}</p>
+      </div>
+    </div>
+
+    <div class="form-group phushText_radio" fxFlex.lt-md="0" fxFlex="33.33%"></div>
+
+  </div>
+</status-panel>
+<br>
+
+<div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="end center" fxLayoutGap="10px" fxLayoutAlign.sm="start"
+  fxLayoutAlign.lt-md="none">
+  <form-button data-id="btn_link" data-text="Back" type="button" fxLayout.lt-md="column" [ngStyle.lt-md]="{'padding-top': '10px'}" (click)="back()"
+    [data]="{type: 'secondary', size: 'stretch'}" style="margin-right: 10px">{{'common.label.back'|translate}}</form-button>
+  <form-button data-id="btn_link" data-text="Cancel" type="button" fxLayout.lt-md="column" [ngStyle.lt-md]="{'padding-top': '10px'}" (click)="cancel()"
+    [data]="{type: 'secondary', size: 'stretch'}" style="margin-right: 10px">{{'common.label.cancel'|translate}}</form-button>
+  <form-button data-id="btn_link" data-text="Confirm" type="button" fxLayout.lt-md="column" [ngStyle.lt-md]="{'padding-top': '10px'}" (click)="confirm()"
+    [autofocus]="true" [tabindex]="1" [hasFocus]="true"[data]="{type: 'primary', size: 'stretch'}">{{'common.label.confirm'|translate}}</form-button>
+</div>
+
+<important-notices>
+  <div>
+    <span>{{'common.label.importantInformation'|translate}}</span>
+  </div>
+    <ul>
+      <li>{{'paymentBeneficiaries.notice.importantNotice1'|translate}}</li>
+      <li>{{'paymentBeneficiaries.notice.importantNotice2'|translate}}</li>
+      <li>{{'paymentBeneficiaries.notice.importantNotice3'|translate}}</li>
+    </ul>
+</important-notices>

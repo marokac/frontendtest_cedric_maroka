@@ -1,0 +1,22 @@
+<div [hidden]="pageId!==0" style="margin-top: -20px;">
+  <transaction-panel  [noBottomBorder]="true" [data]="{  buttons:  [{
+                                                                   title:'common.label.close'|translate,
+                                                                   icon:'close', id:'close_transaction'}],
+                                                                   title: statusPanel}"
+  (onTransactionHeaderButton)="onTransactionHeaderButton($event)">
+
+    <app-add-payment-beneficiary [payBenExtraData]="{viewContainerRef : viewContainerRef, childActionEvent: childActionEvent}" *ngIf="addPaymentBeneficiaryAllowed"(onCloseAddBeneficiaryPanel)="closeAddPanel($event)" [addBenContainerRef]="viewContainerRef"></app-add-payment-beneficiary>
+    <div [ngStyle]="{'margin': '0 auto','max-width': '1030px'}">
+      <empty-state *ngIf="!addPaymentBeneficiaryAllowed"
+      [data]="{ title: aclData.titleText,
+                subtitle:aclData.reasonText}">
+      </empty-state>
+    </div>
+
+  </transaction-panel>
+</div>
+
+
+<div *ngIf="pageId===1" style="margin-top: -20px;">
+  <app-avs-transaction-page (onCloseButtonClick)="onCancelTransaction($event)" [data]="AVSData"></app-avs-transaction-page>
+</div>

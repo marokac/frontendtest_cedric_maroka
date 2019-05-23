@@ -1,0 +1,140 @@
+<!--  //fxLayoutAlign="space-around stretch" -->
+<div *ngIf="activeStep !== 0 && absaListedActiveStep !== 0 ">
+    <div>
+        <tabbed-nav fxFlex="100" [tabsData]="tabsData" [withinATile]="true"
+            [extendedBottomBorder]="extendedBottomBorder" (selectedTab)="onTabChange($event)"
+            *ngIf="!noAccsFound && !paymentLimitZero">
+            <tabbed-panel [panelId]="0">
+                <ng-template>
+                    <div *ngIf="activeStep!==6">
+                        <div [ngStyle]="{'margin': '0 auto','max-width': '1030px'}"
+                            [ngStyle.lt-xl]="{'max-width': '100%'}">
+                            <div class="container-fluid" #newbenProgress fxLayout="column"
+                                fxLayoutAlign="center center">
+                                <progress-indicator *ngIf="activeTabID === 0 && activeStep !== 4"
+                                    #progressIndicatorNewBen [data]="steps"></progress-indicator>
+                            </div>
+
+                            <div *ngIf="progressSpinnerService.showContent">
+                                <new-beneficiary-details [switchData]="data"
+                                    [data]="addBenContainerRef ? addBenContainerRef : viewContainerRef"
+                                    *ngIf="activeStep==1 && activeTabID == 0"></new-beneficiary-details>
+                                <app-confirm *ngIf="activeStep==2 "></app-confirm>
+                                <app-results *ngIf="activeStep==3 " [switchData]="data"
+                                    [beneficiaryNumber]="beneficiaryNumber"></app-results>
+                            </div>
+                            <div class="wrapper-text-center margin-bot-md" *ngIf="!progressSpinnerService.showContent">
+                                <br>
+                                <app-progress-spinner> </app-progress-spinner>
+                            </div>
+
+                            <!-- Back-end service call for retrieving user information has encounter error-->
+                            <service-errors *ngIf="activeStep==4 && progressSpinnerService.showContent"
+                                (ButtonEmitter)="onRefreshPage($event)" [data]="data?{
+                                                 buttons: [{title:'common.label.refresh'|translate, id:'onRefreshPage',autofocus: true}],
+                                                 title: 'switchBeneficiary.label.errorMessage'|translate,
+                                                 subtitle :'common.label.error'|translate,
+                                                 status_reasons: ErrorMessages
+                                               }
+                                               :
+                                               {
+                                                buttons: [{title:'common.label.refresh'|translate, id:'onRefreshPage',autofocus: true}],
+                                                title: 'paymentBeneficiaries.label.errorGettingUserInformation'|translate,
+                                                subtitle :'common.label.error'|translate,
+                                                status_reasons: ErrorMessages
+                                               }"
+                  ></service-errors>
+                        </div>
+                    </div>
+                    <!-- Perform Paymennts -->
+                    <div class="container-fluid" [ngStyle]="{'margin': '0 auto','max-width': '1030px'}"[ngStyle.lt-xl]="{'max-width': '100%'}" *ngIf="activeStep==6">
+                        <app-pay-stepmanager [data]="performAddBenData"></app-pay-stepmanager>
+                    </div>
+
+                </ng-template>
+
+            </tabbed-panel>
+
+            <tabbed-panel [panelId]="1">
+                <ng-template>
+                    <div *ngIf="activeStep!==6">
+                        <div [ngStyle]="{'margin': '0 auto','max-width': '1030px'}"
+                            [ngStyle.lt-xl]="{'max-width': '100%'}">
+                            <div class="container-fluid" #absaListedProgress fxLayout="column"
+                                fxLayoutAlign="center center">
+                                <progress-indicator *ngIf="activeTabID === 1 && absaListedActiveStep !== 4"
+                                    #progressIndicatorAbsalisted [data]="steps"></progress-indicator>
+                            </div>
+                            <div *ngIf="progressSpinnerService.showContent">
+                                <app-absa-listed-details [switchData]="data"
+                                    *ngIf="absaListedActiveStep==1  && activeTabID == 1"></app-absa-listed-details>
+                                <app-absa-listed-confirm *ngIf="absaListedActiveStep==2"></app-absa-listed-confirm>
+                                <app-absa-listed-results *ngIf="absaListedActiveStep==3" [switchData]="data"
+                                    [beneficiaryNumber]="beneficiaryNumber"></app-absa-listed-results>
+                            </div>
+                            <div class="wrapper-text-center margin-bot-md" *ngIf="!progressSpinnerService.showContent">
+                                <br>
+                                <app-progress-spinner> </app-progress-spinner>
+                            </div>
+                            <!-- Back-end service call for retrieving user information has encounter error-->
+                            <service-errors *ngIf="activeStep==4 && progressSpinnerService.showContent"
+                                (ButtonEmitter)="onRefreshPage($event)" [data]="data?{
+                                    buttons: [{title:'common.label.refresh'|translate, id:'onRefreshPage',autofocus: true}],
+                                    title: 'switchBeneficiary.label.errorMessage'|translate,
+                                    subtitle :'common.label.error'|translate,
+                                    status_reasons: ErrorMessages
+                                  }
+                                  :
+                                  {
+                                   buttons: [{title:'common.label.refresh'|translate, id:'onRefreshPage',autofocus: true}],
+                                   title: 'paymentBeneficiaries.label.errorGettingUserInformation'|translate,
+                                   subtitle :'common.label.error'|translate,
+                                   status_reasons: ErrorMessages
+                                  }"></service-errors>
+                        </div>
+                    </div>
+                    <!-- Perform Paymennts -->
+                    <div class="container-fluid" [ngStyle]="{'margin': '0 auto','max-width': '1030px'}"
+                    [ngStyle.lt-xl]="{'max-width': '100%'}" *ngIf="activeStep==6">
+                        <!-- <app-view-pay-beneficiary-stepmanager  [data]="performAddBenData">
+                        </app-view-pay-beneficiary-stepmanager> -->
+                        <app-pay-stepmanager [data]="performAddBenData"></app-pay-stepmanager>
+                    </div>
+                </ng-template>
+            </tabbed-panel>
+        </tabbed-nav>
+    </div>
+
+    <!-- Shown when account payment limit is zero / user doesn't have accounts to perform this type transation -->
+    <empty-state fxFlex="100%" *ngIf="noAccsFound || paymentLimitZero" (ButtonEmitter)="processEmptyStateAction($event)"
+        [data]="
+      noAccsFound ?
+      {
+
+           buttons: [{ title:'pay.emptyState.button.label.linkAccount'|translate,
+                      id:'linkAccount',
+                      infoLink: {link: fullServiceAccountUrl },
+                      message: dialogMessage,
+                      icon: 'icon-link',
+                      autofocus: true },
+                    { title:'pay.emptyState.button.label.applyForNewAccount'|translate,
+                      id:'newAccount',
+                      infoLink: {link: fullServiceApplyUrl },
+                      message: dialogMessage,
+                      icon: 'icon-apply' }],
+          title: 'paymentBeneficiaries.addBeneficiaries.emptyState.noAccounts.title'|translate,
+          subtitle: 'paymentBeneficiaries.addBeneficiaries.emptyState.noAccounts.subtitle'|translate
+      }
+      :
+      {
+        button:   canChangeLimits ? [{ title:'paymentBeneficiaries.addBeneficiaries.emptyState.paymentLimit.button.title'|translate,
+                                      id:'changeLimit', icon: 'icon-settings'}] : undefined,
+        title:    canChangeLimits ? ('paymentBeneficiaries.addBeneficiaries.emptyState.paymentLimit.title1'|translate ):
+                                    ('paymentBeneficiaries.addBeneficiaries.emptyState.paymentLimit.title2'|translate),
+        subtitle: canChangeLimits ? ('paymentBeneficiaries.addBeneficiaries.emptyState.paymentLimit.subtitle1'|translate):
+                                    ('paymentBeneficiaries.addBeneficiaries.emptyState.paymentLimit.subtitle2'|translate)
+      }
+      ">
+    </empty-state>
+
+</div>

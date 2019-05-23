@@ -1,0 +1,204 @@
+@import "../../../../../styles/common/variables";
+
+.accountdropdown-control {
+  font-family: $font-family-base;
+  position: relative;
+  transition: all .5s;
+  vertical-align: middle;
+  width: 100%;
+
+  &:focus {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16);
+    border-color: $brand-plum-light;
+    outline: 0;
+  }
+
+    > a {
+        text-decoration: none;
+    }
+
+    ::-webkit-scrollbar {
+      width: 9px;
+      height: 57px;
+    }
+    ::-webkit-scrollbar-track {
+      border-radius: 0px 0px 5px 0px;
+      background-color: $graphite-5;
+      box-shadow: inset 0 4px 8px 0 rgba(0, 0, 0, 0.16);
+    }
+    ::-webkit-scrollbar-thumb {
+      border-radius: 100px;
+      background-color: $graphite-48;
+    }
+}
+
+.accountdropdown__title {
+  background-color: $white;
+  background-image: none;
+  border: 1px solid $graphite-25;
+  border-radius: 5px;
+  display: block;
+  font-size: $h6-font-size;
+  height: 40px;
+  padding: 1px 42px 0px 12px;
+  transition: all 0s;
+
+  &:focus {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16);
+    border-color: $brand-plum-light;
+    outline: 0;
+  }
+
+  .is-disabled & {
+    background-color: $graphite-8;
+  }
+
+  > a {
+    &:focus {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16);
+      border-color: $brand-plum-light;
+      outline: 0;
+    }
+  }
+
+  &:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16);
+    outline: 0;
+    text-decoration: none;
+    transition: all .5s;
+
+    .is-disabled & {
+      background-color: $graphite-8;
+      border-color: $graphite-25;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+  }
+
+  .accountdropdown__is-open & {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-color: $brand-plum-light;
+    transition: all .5s;
+  }
+}
+
+.accountdropdown__title.submit-clicked {
+  background-color: $brand-error-bg !important;
+  border-color: $brand-error !important;
+}
+
+.accountdropdown__placeholder {
+  color: $graphite-48;
+  font-size: $font-size-medium;
+  font-style: italic;
+  margin-top: 7px;
+}
+
+.accountdropdown__open-icon {
+  color: $graphite-100;
+  font-size: $h5-font-size;
+  position: absolute;
+  right: 0;
+  top: 7px;
+  width: 30px;
+  -webkit-transform-origin: 25% 47%;
+  transform-origin: 25% 47%;
+  transition: -webkit-transform .25s ease;
+  transition: transform .25s ease;
+  transition: transform .25s ease,-webkit-transform .25s ease;
+
+  .accountdropdown__is-open & {
+    color: $brand-plum-light;
+    position: absolute;
+    transform: rotate(180deg)
+  }
+}
+
+.accountdropdown__open-icon.submit-clicked {
+  color: $brand-error !important;
+}
+
+.accountdropdown__options {
+  background-color: $white;
+  border: 1px solid  $graphite-25;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16);
+  max-height: 250px;
+  opacity: 0;
+  overflow-y: auto;
+  position: absolute;
+  top: $input-height-base;
+  visibility: hidden;
+  width: 100%;
+  z-index: $zindex-nav-dropdown;
+
+
+  > a {
+    display: block;
+    padding: 15px 15px;
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &.has-focus {
+      background-color: $graphite-5;
+      outline: none;
+    }
+
+    + a {
+      border-top: 1px solid $graphite-25;
+    }
+  }
+
+  .accountdropdown__is-open & {
+    border-top: 0;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.validation__message {
+  vertical-align: middle;
+  padding-right: 4px;
+}
+
+.account-options-label {
+  font-size: $h6-font-size;
+  color: $graphite-100;
+  line-height: 1.2;
+  font-weight: normal;
+}
+
+.account-options-sublabel {
+  color: $graphite-48;
+  font-size: $font-size-small;
+  font-weight: normal;
+}
+.account-options-balancelabel {
+  color: $graphite-48;
+  font-size: $font-size-small;
+  text-transform: uppercase;
+  font-weight: normal;
+}
+.account-options-balance {
+  font-size: $h6-font-size;
+  line-height: 1.3;
+  white-space: nowrap;
+  width: auto;
+  color: $graphite-100;
+  font-weight: normal;
+}
+
+.selected_value {
+  background-color: $graphite-8;
+}
+
+.is-disabled .icon-chevron {
+  display: none;
+}
+
+.is-disabled .accountdropdown__title {
+  padding: 1px 12px 0px 12px;
+}
+

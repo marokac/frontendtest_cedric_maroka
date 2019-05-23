@@ -1,0 +1,28 @@
+<div fxLayout="row">
+  <div class="search-bar" [ngClass]="{'focused': inputFocused}" [ngStyle]="{ 'width.%': data?.width }" [formGroup]="parentFormGroup" >
+      <i class="icon-search"></i>
+      <input
+        class="searchBox"
+        type="text"
+        (focus)="onFocus()"
+        (blur)="onFocus()"
+        (focusout)="onFocusOut()"
+        placeholder="{{data?.placeholder}}"
+        (keyup)="onKeyUp($event)"
+        (keypress)="onKeyPress($event)"
+        formControlName="{{ data.name }}"
+        [attr.disabled]="disableSearch? true:null"
+        [(ngModel)]="clearValue"
+        #searchBox>
+        <i class="icon-close" [ngClass]="{'active': cancelButton}" (click)="cancel()"></i>
+  </div>
+
+  <div>
+    <app-tooltip *ngIf="data.tooltipText" [data]="{
+      contentText: data.tooltipText
+    }">
+    </app-tooltip>
+  </div>
+</div>
+
+

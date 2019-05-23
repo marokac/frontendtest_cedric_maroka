@@ -1,0 +1,149 @@
+<app-dialog-modal>
+  <div class="container">
+    <a class="btn-close" (click)="onModalClose()">
+      <span class="icon primary-icon icon-close dialog-icon-close"> </span>
+    </a>
+    <cb-form class="container" [formGroup]="institutionForm">
+      <div class="custom-header">
+        <h1>&nbsp;</h1>
+        <h1>
+          {{
+            "paymentBeneficiaries.addBeneficiaries.absaListedBeneficiaryMatched"
+              | translate
+          }}
+        </h1>
+        <h2>
+          {{ "pay.label.alreadyExistsMessage.accountNumber" | translate }}&nbsp;
+          {{ AbsaListedData[0].institutionAccountNumber }}&nbsp;
+          {{ "pay.label.alreadyExistsMessage.belongsToAn" | translate }}.
+          <br />
+          {{
+            "paymentBeneficiaries.addBeneficiaries.alreadyExistsMessage.selectTheInstitutuion"
+              | translate
+          }}
+        </h2>
+        <h2>&nbsp;</h2>
+      </div>
+      <div class="table-container custom-body">
+        <table>
+          <thead>
+            <tr>
+              <td>
+                <span class="text" [ngClass]="{ sort: sortByName }">
+                  {{ "pay.label.institutionNamePopUp" | translate }}
+                </span>
+                <i
+                  class="icon icon-table-filter"
+                  [ngClass]="{
+                    clicked: sortByName,
+                    show: AbsaListedData.length >= 2
+                  }"
+                  (click)="sortRows('institutionName')"
+                ></i>
+              </td>
+              <td>
+                <span class="text" [ngClass]="{ sort: sortcode }">
+                  {{ "pay.label.institutionCode" | translate }}
+                </span>
+                <i
+                  class="icon icon-table-filter"
+                  [ngClass]="{
+                    clicked: sortcode,
+                    show: AbsaListedData.length >= 2
+                  }"
+                  (click)="sortRows('institutionCode')"
+                ></i>
+              </td>
+            </tr>
+          </thead>
+          <tbody
+            class="tbody-{{ AbsaListedData.length }}'"
+            class="table-rwapper"
+          >
+            <tr
+              (click)="selectAbsaListedBeneficiary(i, 'institution--' + i)"
+              *ngFor="
+                let institutionalBeneficiary of AbsaListedData;
+                let i = index
+              "
+              [ngClass]="{
+                'row-selected':
+                  institutionForm.controls['institution'].value ===
+                  'institution--' + i,
+                'row-before-selected':
+                  institutionForm.controls['institution'].value ===
+                  'institution--' + (i + 1).toString()
+              }"
+            >
+              <td>
+                <form-radio-single
+                  [parentFormGroup]="institutionForm"
+                  [data]="{
+                    index: i,
+                    name: 'institution',
+                    checked:
+                      institutionForm.controls['institution'].value ===
+                      'institution--' + i
+                  }"
+                >
+                </form-radio-single>
+              </td>
+              <td>
+                <span class="institution-name-text">{{
+                  institutionalBeneficiary.institutionName
+                }}</span>
+              </td>
+              <td>{{ institutionalBeneficiary.institutionCode }}</td>
+              <!-- <td>{{institutionalBeneficiary.institutionAccountNumber}}</td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="custom-footer">
+        <h2>&nbsp;</h2>
+        <pre style="display:none"> {{ accountFromBranch$ | async }} </pre>
+
+        <div
+          *ngIf="isNoBeneficiarySelectedError"
+          class="errormessage-container"
+        >
+          <alert-messages
+            [autofocus]="isNoBeneficiarySelectedError"
+            [data]="{
+              title: 'An institution must selected'
+            }"
+          >
+          </alert-messages>
+        </div>
+
+        <div class="button-container">
+          <form-button
+            type="button"
+            (click)="onCancelClick()"
+            [data]="{
+              type: 'secondary',
+              size: 'lg'
+            }"
+            style="margin-right: 10px"
+          >
+            {{ "common.label.cancel" | translate }}
+          </form-button>
+
+          <form-button
+            type="button"
+            (click)="gotoAbsaListed()"
+            [data]="{
+              type: 'primary',
+              size: 'lg'
+            }"
+            style="margin-right: 10px"
+          >
+            {{ "common.label.confirm" | translate }}
+          </form-button>
+        </div>
+      </div>
+      <!-- <pre> {{ institutionForm.value | json }} </pre> -->
+    </cb-form>
+  </div>
+</app-dialog-modal>

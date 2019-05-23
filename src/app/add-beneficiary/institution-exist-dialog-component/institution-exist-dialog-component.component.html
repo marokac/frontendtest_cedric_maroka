@@ -1,0 +1,136 @@
+<app-dialog-modal>
+  <div class="container">
+    <a class="btn-close" (click)="dialogModalService.closeModalDialog()">
+       <span class="icon primary-icon icon-close dialog-icon-close"> </span>
+    </a>
+    <cb-form class="container" [formGroup] = "institutionForm">
+      <div class="custom-header">
+        <h1>&nbsp;</h1>
+        <h1>&nbsp;</h1>
+        <h1> {{ 'pay.label.alreadyExistsMessage.thisBeneficiaryAlreadyExists'|translate }}</h1>
+        <h2 style="color: grey"> {{ 'pay.label.alreadyExistsMessage.youAlreadyHaveABeneficiaryForThisInstitution'|translate }}.
+          {{ 'paymentBeneficiaries.label.alreadyExistsMessage.youCanCancelTransaction'| translate }}. </h2>
+       
+        <h2>&nbsp;</h2>
+      </div>
+
+      <div class="table-container custom-body">
+        <div class='table'>
+          <div class='thead'>
+            <div class='tr'>
+              <div class="td beneficiary-number">
+                <span class="text">#</span>
+                <i class="icon icon-table-filter"></i>
+              </div>
+              <div class="td beneficiary-name">
+                <span class="text">
+                  {{ 'pay.label.fullName'|translate }}
+                </span>
+                <i class="icon icon-table-filter"></i>
+              </div>
+              <div class="td my-reference">
+                <span class="text">
+                  {{ 'pay.label.myreference'|translate }}
+                </span>
+                <i class="icon icon-table-filter"></i>
+              </div>
+              <div class="td last-payment-date">
+                <span class="text">
+                  {{ 'pay.label.lastPaymentDate'|translate }}
+                </span>
+                <i class="icon icon-table-filter"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class='tbody tbody-{{accountFromBranch.ownDefinedBeneficiaries.length}}' *ngIf="accountFromBranch">
+            <div class='tr' *ngFor="let ownDefinedBeneficiary of accountFromBranch.ownDefinedBeneficiaries; let i = index"
+              (click)="setSelectedBeneficiary(ownDefinedBeneficiary, 'institution--' + i)"
+              [ngClass]="{
+                'row-selected' : institutionForm.controls['institution'].value === 'institution--' + i,
+                'row-before-selected' : institutionForm.controls['institution'].value === 'institution--' + (i+1).toString()
+              }">
+              <div class="td beneficiary-number">
+                <div class="big-text">
+                  {{ownDefinedBeneficiary.beneficiaryNumber}}
+                </div>
+              </div>
+              <div class="td beneficiary-name">
+                <div class="text-container">
+                  <div class="big-text">
+                    {{ownDefinedBeneficiary.beneficiaryName}}
+                  </div>
+                  <div class="small-text">
+                    {{ownDefinedBeneficiary.targetAccountNumber}}
+                  </div>
+                </div>
+              </div>
+              <div class="td my-reference">
+                <div class="text-container">
+                  <div class="big-text">
+                      {{ownDefinedBeneficiary['beneficiaryDetailsVO'].sourceAccountReference}}
+                  </div>
+                  <div class="small-text">
+                      {{ownDefinedBeneficiary['beneficiaryDetailsVO'].targetAccountReference}}
+                  </div>
+                </div>
+              </div>
+              <div class="td last-payment-date"
+                *ngIf="ownDefinedBeneficiary['beneficiaryDetailsVO'].lastPaymentDateAndTime !== null">
+                <div class="text-container">
+                  <div class="big-text">
+                      {{ownDefinedBeneficiary['beneficiaryDetailsVO'].lastPaymentDateAndTime | sgFormatDate: 'DD MMMM YYYY'}}
+                  </div>
+                  <div class="small-text">
+                      {{ownDefinedBeneficiary['beneficiaryDetailsVO'].lastPaymentAmount | convertNumberToCurrency }}
+                  </div>
+                </div>
+              </div>
+              <div class="td last-payment-date" *ngIf="ownDefinedBeneficiary['beneficiaryDetailsVO'].lastPaymentDateAndTime === null">{{'pay.label.noPaymentHistory' | translate}}</div>
+            </div>
+        </div>
+
+        </div>
+      </div>
+
+     <div class="custom-footer">
+        <h2>&nbsp;</h2>
+        <div *ngIf="isNoBeneficiarySelectedError"
+          class="errormessage-container">
+          <alert-messages
+            [autofocus]="isNoBeneficiarySelectedError"
+            [data]="{
+              title: 'pay.label.alreadyExistsMessage.existingPopupupErrorMessage' | translate
+            }">
+          </alert-messages>
+        </div>
+        <div class="button-container">
+          <form-button
+            type="button"
+            (click)="onAddNewBeneficiary()"
+            [data]="{
+              type: 'secondary',
+              size: 'lg'
+            }"
+            style="margin-right: 10px">
+            {{'pay.label.alreadyExistsMessage.addNewBeneficiary'|translate}}
+          </form-button>
+          <form-button
+            type="button"
+            (click)="cancelTransaction()"
+            [data]="{
+              type: 'primary',
+              size: 'lg'
+            }">
+            {{'common.label.cancelTransaction'|translate}}
+          </form-button>
+        </div>
+      </div>
+    </cb-form>
+  </div>
+</app-dialog-modal>
+
+
+
+
+

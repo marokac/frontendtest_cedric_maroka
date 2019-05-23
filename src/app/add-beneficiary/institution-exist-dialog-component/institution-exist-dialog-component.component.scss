@@ -1,0 +1,198 @@
+@import '../../../../../../../../styles/common/variables.scss';
+@import '../../../../../../../../styles/common/mixins';
+.container {
+  .btn-close {
+    padding: 5px 10px;
+    position: relative;
+    cursor: pointer;
+    right: -1%;
+    top: 7px;
+    float: right;
+    .icon.primary-icon {
+      color: $graphite-100;
+      font-size: 14px;
+      font-weight: 300;
+    }
+  }
+  $row-height: 50px;
+  $row-count: 5;
+  /*::-webkit-scrollbar {
+    width: 0px;  remove scrollbar space
+    background: transparent;  optional: just make scrollbar invisible
+  }
+  optional: show position indicator in red
+  ::-webkit-scrollbar-thumb {
+      background: transparent;
+  }*/
+  .table-container {
+    width: 95%;
+    margin: 0 auto;
+  }
+  .table {
+    width: 100%;
+    .td {
+      text-align: left;
+      float: left;
+      display: block;
+    }
+    .beneficiary-number {
+      width: 10%;
+      text-align: center;
+      padding-left: 5px;
+    }
+    .beneficiary-name {
+      width: 33%;
+    }
+    .my-reference {
+      width: 24%
+    }
+    .last-payment-date {
+      width: 33%
+    }
+
+    .tbody {
+      border: 1px solid $graphite-25;
+      max-height: $row-height * $row-count;
+      @for $i from 1 through $row-count {
+        &.tbody-#{$i} {
+          height: ($row-height * $i);
+          @if $i < 6 {
+            &::-webkit-scrollbar {
+              width: 0px;
+            }
+            &::-webkit-scrollbar-thumb {
+              background: red;
+              width: 0px;
+            }
+            .td {
+              &.beneficiary-name {
+                width: 24%;
+              }
+              &.my-reference {
+                width: 31%
+              }
+              &.last-payment-date {
+                width: 35%
+              }
+            }
+          }
+        }
+      }
+      overflow-y: scroll;
+      display: block;
+      width: 100%;
+      float: left;
+      ::-webkit-scrollbar {
+          width: 0px;
+          background: transparent; /* make scrollbar transparent */
+      }
+
+      .tr {
+        &:hover {
+          cursor: pointer;
+        }
+        .td {
+          height: $row-height;
+          padding-top: 7px;
+          border-bottom: 1px solid $graphite-25;
+          height: 50px;
+          box-sizing: border-box;
+          .small-text {
+            font-size: 10px;
+            color: $graphite-35;
+          }
+        }
+        &.row-selected {
+          outline: 0;
+          .td {
+            border-top: 1px solid $brand-plum-light;
+            border-bottom: 1px solid $brand-plum-light;
+            &:first-child {
+              border-left: 1px solid $brand-plum-light;
+            }
+            &:last-child {
+              border-right: 1px solid $brand-plum-light;
+            }
+          }
+        }
+        &.row-before-selected {
+          td {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+    .thead {
+      border-left: 1px solid $graphite-25;
+      border-right: 1px solid $graphite-25;
+      border-top: 1px solid $graphite-25;
+      background-color: $graphite-13;
+      text-transform: uppercase;
+      .icon-table-filter {
+        color: $graphite-100;
+        display: none;
+        font-size: 4px;
+        margin-left: 5px;
+        vertical-align: 1px;
+      }
+      .text {
+      }
+      .td {
+        line-height: $row-height;
+        &.beneficiary-number {
+          width: 10%;
+        }
+        &.beneficiary-name {
+          width: 33%;
+        }
+        &.my-reference {
+          width: 24%
+        }
+        &.last-payment-date {
+          width: 33%
+        }
+      }
+    }
+    .tr {
+      height: $row-height;
+    }
+
+    /*tr:nth-child(n + 5) {
+      visibility: hidden;
+    }*/
+  }
+
+  h2 {
+    font-size: 14px;
+    color: $graphite-82;
+  }
+
+  .button-container {
+    padding: 10px 0px;
+  }
+  .institution-name-text {
+    margin-left: 5px;
+  }
+  .custom-footer {
+    clear: both;
+  }
+}
+
+.errormessage-container {
+  width: 90%;
+  margin: 0 auto 10px;
+}
+
+.btn-close {
+  padding: 5px 10px;
+  position: absolute;
+  cursor: pointer;
+  top: 7px;
+  float: right;
+  z-index: 1;
+  .icon.primary-icon {
+    color: $graphite-100;
+    font-size: 14px;
+    font-weight: 300;
+  }
+}

@@ -1,0 +1,204 @@
+@import "src/styles/common/variables";
+@import "src/styles/common/mixins";
+
+@media (min-width: 1440px) {
+  .container {
+    max-height: 678px;
+    overflow: hidden;
+  }
+}
+
+.container {
+  $row-height: 50px;
+  $row-count: 5;
+  .table-container {
+    max-height: $row-height * 6 + 1px;
+    width: 90%;
+    margin: 0 auto;
+  }
+  .table-rwapper {
+    display: table-cell;
+    overflow-x: auto;
+    width: 100%;
+  }
+  table {
+    width: 100%;
+    td {
+      text-align: left;
+    }
+    tbody {
+      border: 1px solid $graphite-25;
+      border-top: none;
+      border-bottom: none;
+      max-height: ($row-height * 5) + 6px;
+      display: block;
+      width: 100%;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      overflow: auto;
+      @for $i from 1 through $row-count {
+        &.tbody-#{$i} {
+          height: ($row-height * $i);
+          &::-webkit-scrollbar {
+            width: 0px;
+          }
+          &::-webkit-scrollbar-thumb {
+            background: red;
+            width: 0px;
+          }
+          .td {
+            &.beneficiary-name {
+              width: 24%;
+            }
+            &.my-reference {
+              width: 31%;
+            }
+            &.last-payment-date {
+              width: 35%;
+            }
+          }
+        }
+      }
+
+      tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        border-bottom: 1px solid $graphite-25;
+        &:hover {
+          cursor: pointer;
+        }
+        td {
+          height: $row-height;
+          .small-text {
+            font-size: 10px;
+            color: $graphite-35;
+          }
+          &:first-child {
+            width: 25px;
+          }
+          // @media only screen and (max-width: 768px) {
+          //   font-size: 80%;
+          // }
+        }
+        &.row-selected {
+          outline: 0;
+          border: 1px solid $brand-plum-light;
+          td {
+            // border-top: 1.5px solid $brand-plum-light;
+            // border-bottom: 1.5px solid $brand-plum-light;
+            // margin-bottom: 50px;
+            // &:first-child {
+            //   border-left: 1.5px solid $brand-plum-light;
+            // }
+            // &:last-child {
+            //   border-right: 1.5px solid $brand-plum-light;
+            // }
+          }
+        }
+        &.row-before-selected {
+          border-bottom: none;
+          // td {
+          //   border-bottom: 0px solid $brand-plum-light;
+          // }
+        }
+        td:nth-child(1) {
+          padding-right: 1%;
+          padding-bottom: 22px;
+        }
+      }
+    }
+    thead {
+      display: block;
+      border-left: 1px solid $graphite-25;
+      border-right: 1px solid $graphite-25;
+      border-top: 1px solid $graphite-25;
+      background-color: $graphite-13;
+      text-transform: uppercase;
+      color: $graphite-100;
+      td:nth-child(2) {
+        padding: 5px 1%;
+        width: 34%;
+      }
+      .icon-table-filter {
+        color: $graphite-100;
+        display: none;
+        font-size: 10px;
+        margin-left: 5px;
+        vertical-align: 1px;
+        &.show {
+          display: inline-block;
+        }
+        &.clicked {
+          margin-left: -10px;
+          padding-right: 15px;
+          -webkit-transform: rotate(180deg);
+          -moz-transform: rotate(180deg);
+          -ms-transform: rotate(180deg);
+          -o-transform: rotate(180deg);
+          transform: rotate(180deg);
+        }
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      .text {
+        color: $graphite-100;
+
+        //767
+        &.sort {
+          color: $graphite-100;
+        }
+
+        // @media only screen and (max-width: 768px) {
+        //   font-size: 80%;
+        // }
+      }
+    }
+    tr {
+      height: $row-height;
+      width: 100%;
+      display: table;
+      table-layout: fixed;
+    }
+    td:nth-child(1) {
+      padding: 5px 1%;
+      width: 35%;
+    }
+
+    /*tr:nth-child(n + 5) {
+      visibility: hidden;
+    }*/
+  }
+
+  h2 {
+    font-size: 14px;
+    color: $graphite-82;
+  }
+
+  .button-container {
+    padding: 10px 0px;
+  }
+  .institution-name-text {
+    margin-left: 5px;
+  }
+}
+
+.errormessage-container {
+  width: 90%;
+  margin: 0 auto 10px;
+}
+
+.btn-close {
+  padding: 5px 10px;
+  position: absolute;
+  cursor: pointer;
+  top: 7px;
+  float: right;
+  z-index: 1;
+  .icon.primary-icon {
+    color: $graphite-100;
+    font-size: 14px;
+    font-weight: 300;
+  }
+}

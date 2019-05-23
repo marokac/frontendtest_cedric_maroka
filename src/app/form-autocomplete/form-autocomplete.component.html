@@ -1,0 +1,125 @@
+<div (click)="autocompleteIsOpen = false" class="form-group" [ngClass]="{'submit-clicked': formStatus.submitClicked && !autocompleteIsOpen}" [formGroup]="parentFormGroup">
+    <div fxLayoutAlign="space-between center">
+
+        <div fxLayout="row">
+          <label for="{{ data.name }}">{{ data.label }}</label>
+          <app-tooltip *ngIf="data.tooltipText" [data]="{
+                  contentText: data.tooltipText
+                }">
+          </app-tooltip>
+        </div>
+        <span id="{{ data.name }}_description" class="form-group__info" *ngIf="data.info">{{ data.info }}
+          <span *ngIf="data.moreInfo">{{ data.moreInfo }}
+            <!-- <a [routerLink]="data.infoLink.link" skipLocationChange (keydown)="onInfoLinkNavKeyDown($event, data.infoLink.link )" *ngIf="data.infoLink">{{ data.infoLink.label }}</a> -->
+                <a href="" [routerLink]="[data.infoLink.link, data.infoLink.parameters]"
+                   (keydown)="onInfoLinkNavKeyDown($event, [data.infoLink.link, data.infoLink.parameters] )"
+                   *ngIf="data.infoLink.link">{{ data.infoLink.label }}</a>
+                <a href=""
+                   (click)="onInfoLinkNavClick($event)"
+                   *ngIf="!data.infoLink.link">{{ data.infoLink.label }}</a>
+          </span>
+         </span>
+    </div>
+  <!-- <label for="{{ data.name }}">{{ data.label }}</label> -->
+  <div
+    class="autocomplete-control"
+    [ngClass]="{'autocomplete__is-open': autocompleteIsOpen}">
+    <div
+      id="{{ data.name }}"
+      class="autocomplete__title"
+      [ngClass]="{'is-disabled': data.disabled}"
+      (keyup)="onMainDivKeyUp($event)"
+      aria-haspopup="true"
+      [attr.aria-expanded]="autocompleteIsOpen ? 'true' : ''"
+      [attr.aria-invalid]="!parentFormGroup.controls[data.name].valid"
+      [attr.aria-describedby]="ariaDescribedBy"
+      >
+
+      <!-- <input *ngIf="disabled && !currentOption()" [attr.disabled]="disabled" type="text" class="autocomplete__placeholder" placeholder="{{data.placeholder}}"> -->
+      <!-- <input *ngIf="!disabled && !currentOption()" type="text" class="autocomplete__placeholder" placeholder="{{data.placeholder}}"> -->
+      <!-- <input *ngIf="!disabled && currentOption()" value="{{ currentOption().label }}" class="auto_complete_editable"> -->
+      <!-- <input *ngIf="disabled && currentOption()" value="{{ currentOption().label }}" class="auto_complete_editable" [attr.disabled]="disabled"> -->
+
+      <!-- <input *ngIf="!disabled" #elementValue type="text" class="autocomplete__placeholder" placeholder="{{data.placeholder}}"> -->
+      <input [attr.disabled]="data.disabled ? '' : null"
+        [autofocus]='autofocus'
+        (change) = 'onInputChange($event)'
+        (dblclick)="onInputDblClick($event)"
+        (click)="onInputClick($event)"
+        (keydown)="onInputKeyDown($event)"
+        (keyup)="onInputKeyUp($event)"
+        (keypress)="onInputKeyPress($event)"
+        (blur)="onInputBlur($event)"
+        (focus)="onInputFocus($event)"
+        #elementValue
+        maxlength="{{ data.maxlength }}"
+        type="text"
+        class="autocomplete__placeholder"
+        [ngClass]="{
+          'warningInput': data.isWarning,
+          'hasIcon': data.currencySymbol,
+          'alignToRight':data.amountInputValueRight,
+          'hasError': formStatus.formErrors[data.name]
+        }"
+        [attr.placeholder]="data.placeholder"
+        formControlName="{{ data.name }}">
+        <span *ngIf="data.currencySymbol" class="input__addon"><span class="input__addon-currency-symbol"  [ngClass]="{'is-error': formStatus.formErrors[data.name] && !autocompleteIsOpen}">R</span></span>
+        <span *ngIf="data.icon && !data.iconRight" class="input__addon"><span class="icon-{{ data.icon }}"  [ngClass]="{'is-error': formStatus.formErrors[data.name] && !autocompleteIsOpen}"></span></span>
+        <span *ngIf="data.iconRight" class="input__addon_right"><span class="icon-{{ data.icon }}"></span></span>
+
+      <!-- <span class="input-group__addon"><span class="icon-{{ data.icon }}" ></span></span> -->
+
+      <div class="autocomplete__title-icon" [ngClass]="{'spinnerActive': data.spinner}">
+        <span class="icon icon-search" *ngIf="!data.spinner" [ngClass]="{'is-error': formStatus.formErrors[data.name] && !autocompleteIsOpen}"></span>
+        <app-progress-spinner
+          *ngIf="data.spinner"
+          class="spinner"
+        ></app-progress-spinner>
+      </div>
+    </div>
+
+    <div *ngIf="data.options && !data.spinner">
+      <div class="autocomplete__options" *ngIf="data.options.length > 0" [attr.aria-labelledby]="data.name" #options>
+        <a href=""
+          *ngFor="let option of data.options; let i = index"
+          (keyup)="handleUpDown($event, i, option)"
+          (keydown)="onOptionKeyDown($event, i, option)"
+          [ngClass]= "{
+            'has-focus' : option?.hasFocus,
+            'filterOptionValues' : option?.filterOptionValues,
+            'push_left' : data.textAlign === 'left',
+            'push_right' : data.textAlign === 'right'
+          }"
+          [cbFocus]="option?.hasFocus"
+          class="disable-submit-onenter"
+          (click)="onOptionClick($event, option)"
+          [innerHTML]="insertBoldText(option.label, i, option.subLabel)">
+        </a>
+      </div>
+    </div>
+
+    <!-- <span [ngClass]="{'selected_value': option.bold}">{{ option.label }}</span> -->
+    </div>
+  <div
+    id="err_{{ data.name }}"  *ngIf="formStatus.formErrors[data.name] && !autocompleteIsOpen"
+    [ngClass]="{'submit-clicked': formStatus.submitClicked}"
+    class="form-error" role="alert">
+    <span class="icon-validation-error dropdown_validation_message"></span>
+    {{ formStatus.formErrors[data.name] }}
+
+  </div>
+  <div
+    id="warn_{{ data.name }}"
+    *ngIf="formStatus.formDisplayWarnings && formStatus.formDisplayWarnings[data.name]"
+    [ngClass]="{'submit-clicked': formStatus.submitClicked}"
+    class="form-warning"
+    role="alert">
+    {{ formStatus.formWarnings[data.name] }}
+  </div>
+</div>
+<div *ngIf="data.showMinMaxValues" class="autocomplete__minMax-values">
+  <span *ngIf="data.minLabel">{{ data.minLabel }} </span>
+  <span *ngIf="data.minValue">{{ data.minValue }} </span>
+  <span *ngIf="data.maxLabel">{{ data.maxLabel }} </span>
+  <span *ngIf="data.maxValue">{{ data.maxValue }} </span>
+</div>

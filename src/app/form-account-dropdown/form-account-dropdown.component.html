@@ -1,0 +1,76 @@
+<div class="form-group" [ngClass]="{'submit-clicked': formStatus.submitClicked}">
+  <div fxLayout="row">
+    <label for="{{ data.name }}">{{ data.label }}</label>
+    <app-tooltip *ngIf="data.tooltipText" [data]="{
+                          contentText: data.tooltipText
+                        }">
+    </app-tooltip>
+  </div>
+  <div class="accountdropdown-control"
+    [ngClass]="{'accountdropdown__is-open': dropdownIsOpen, 'is-disabled': disabled}">
+    <a #elementValue href="" id="{{ data.name }}" class="accountdropdown__title disable-submit-onenter"
+      type="button"
+      (click)="onOpenClick($event)" (keyup)="handleUpDown($event,-1)"
+      aria-haspopup="true"
+      [attr.aria-expanded]="dropdownIsOpen ? 'true' : ''"
+      [attr.aria-invalid]="!parentFormGroup.controls[data.name].valid"
+      [attr.aria-describedby]="ariaDescribedBy"
+      [attr.disabled]="disabled ? 'disabled' : null"
+      [attr.tabindex]="disabled? -1 : 0" (focus)="mouseEnter($event)"
+      [ngClass]="{'submit-clicked': formStatus.formErrors[data.name]}"
+      (focusout)="mouseLeave($event)"
+      [autofocus]='autofocus'>
+
+      <span fxLayout="row" fxLayoutAlign="start stretch" *ngIf="!currentOption"
+        class="accountdropdown__placeholder">{{ data.placeholder }}</span>
+      <div *ngIf="currentOption">
+        <span fxLayout="row" fxLayoutAlign="start stretch" *ngIf="currentOption.label === ''"
+          class="accountdropdown__placeholder">{{ data.placeholder }}</span>
+        <div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="currentOption.label !== ''">
+          <div fxLayout="column" fxLayoutAlign="center">
+            <span class="account-options-label" fxLayout="row">{{ currentOption.label.split('|')[0] }}</span>
+            <span class="account-options-sublabel" fxLayout="row">{{ currentOption.label.split('|')[1] }}</span>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="center" [hidden]="hideBalance">
+            <span class="account-options-balancelabel" fxLayout="row"
+              fxLayoutAlign="end center">{{'common.label.availableBalance'|translate}}</span>
+            <span fxLayoutAlign="end" class="account-options-balance"
+              fxLayout="row">{{currentOption.balance | convertNumberToCurrency}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="accountdropdown__open-icon"  [ngClass]="{'submit-clicked': formStatus.formErrors[data.name]}">
+        <span class="icon icon-chevron"></span>
+      </div>
+    </a>
+
+    <div class="accountdropdown__options" [attr.aria-labelledby]="data.name" (scroll)="onScroll($event)">
+      <a [ngClass]="{
+            'selected_value': option.highlight
+          }" href="" type="button" class="disable-submit-onenter" *ngFor="let option of loadedOptions; let i = index"
+        (click)="onOptionClick($event, option)" (keyup)="handleUpDown($event, i, option)" [ngClass]="{
+            'has-focus' : option?.hasFocus
+          }" [cbFocus]="option?.hasFocus">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <div fxLayout="column" fxLayoutAlign="center">
+            <span class="account-options-label" fxLayout="row">{{ option.label.split('|')[0] }}</span>
+            <span class="account-options-sublabel" fxLayout="row">{{ option.label.split('|')[1] }}</span>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="center" [hidden]="hideBalance">
+            <span class="account-options-balancelabel" fxLayout="row"
+              fxLayoutAlign="end center">{{'common.label.availableBalance'|translate}}</span>
+            <span fxLayoutAlign="end" class="account-options-balance"
+              fxLayout="row">{{ option.balance | convertNumberToCurrency}}</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div id="err_{{ data.name }}" *ngIf="formStatus.formErrors[data.name]"
+      [ngClass]="{'submit-clicked': formStatus.submitClicked}" class="form-error" role="alert">
+      <span class="icon-validation-error validation__message"></span>
+      {{ formStatus.formErrors[data.name] }}
+    </div>
+  </div>
+</div>

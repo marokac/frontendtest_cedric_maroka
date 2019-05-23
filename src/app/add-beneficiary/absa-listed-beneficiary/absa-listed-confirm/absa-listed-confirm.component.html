@@ -1,0 +1,114 @@
+<div *ngIf="benExist" style="margin-top: 20px">
+  <alert-messages
+    [data]="{
+      title: 'common.label.warningBenExist'|translate,
+      note: true,
+      type: 'warning'
+    }">
+  </alert-messages>
+</div>
+
+<status-panel style="margin-top: 20px"
+[adobeanalytics]="{pageName:'CB:PaymentBeneficiaries:Absa Listed Beneficiary Confirm Step', formStatus:'complete'}"
+[data]="{title: 'prepaidMobile.label.confirmDetails'|translate, subtitle: '',icon: 'confirm', status: 'confirm'}" fxLayout="column">
+
+  <div class="section-header">
+    {{'common.label.beneficiaryDetails'|translate}}
+  </div>
+
+  <div fxLayout.sm="column"  fxLayoutAlign="space-between">
+    <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+      <label for="fromAccount" class="control-label">{{ 'pay.label.institutionName'|translate }}</label>
+      <div class="controls">
+        <p id="fullName" class="form-control-static">{{formData.institutionName}}</p>
+      </div>
+    </div>
+    <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+      <label for="accountNumber" class="control-label"><b>{{formData.institutionName}}{{'pay.label.s'|translate}}</b> {{ 'pay.label.sAccountNumber'|translate }} </label>
+      <div class="controls">
+        <p id="accountNumber" class="form-control-static">{{formData.accountNumber}}</p>
+      </div>
+    </div>
+    <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+      <label for="branchCode" class="control-label">{{ 'pay.label.institutionCode'| translate }}</label>
+      <div class="controls">
+        <p id="branchCode" class="form-control-static">{{formData.branchCode}}</p>
+      </div>
+    </div>
+  </div>
+
+    <div class="section-spacing"></div>
+    <div class="section-header">
+      {{'pay.label.youDetails'|translate}}
+    </div>
+
+  <div fxLayout.sm="column" fxLayoutAlign="space-between">
+    <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+      <label for="BranchName" class="control-label">{{ 'pay.label.accountHoldersNameAt'| translate }} <b>{{formData.institutionName}}</b></label>
+      <div class="controls">
+        <p id="BranchName" class="form-control-static">{{formData.accountHoldersName}}</p>
+      </div>
+    </div>
+    <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+      <label for="saveBeneficiaryRadio" class="control-label">{{'pay.label.accountOrReferencenumber'| translate }} <b>{{formData.institutionName}}</b></label>
+      <div class="controls">
+        <p id="saveBeneficiaryRadio" class="form-control-static">{{formData.accountHoldersRefNumber}}</p>
+      </div>
+    </div>
+    <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+      <label for="myReference" class="control-label">{{ 'pay.label.myreference'|translate }}</label>
+      <div class="controls">
+        <p id="myReference" class="form-control-static">{{formData.myReference}}</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-spacing"></div>
+  <div class="section-header">
+    {{'pay.label.notificationDetails'|translate}}
+  </div>
+
+  <div fxLayout.sm="column"  fxLayoutAlign="space-between">
+    <div class="details-form-group" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%" *ngIf="notifyMe">
+      <div for="notifyMe" class="notice-of-purchase-header" [ngStyle]="{'margin-top': '-20px'}">
+        {{'paymentBeneficiaries.label.myNotifyOfPayment'|translate}}
+      </div>
+    </div>
+    <div class="details-form-group" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%" *ngIf="notifyBeneficiary"></div>
+    <div class="details-form-group" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%" fxHide.sm="true"></div>
+  </div>
+
+  <div fxLayout.sm="column"  fxLayoutGap="15px" fxLayoutAlign="space-between">
+    <div class="details-form-group" style="word-break: break-all" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%" *ngIf="notifyMe">
+      <label for="beneficiaryReference" *ngIf="isOwnNone" class="control-label">{{notifyMe.sendViaLabel}}</label>
+      <div class="controls">
+        <p id="beneficiaryReference" class="form-control-static">{{notifyMe.sendViaValue}}</p>
+      </div>
+
+      <label for="beneficiaryReference" class="control-label">{{notifyMe.methodTypeLabel}}</label>
+      <div class="controls">
+        <p id="beneficiaryReference" class="form-control-static">{{notifyMe.methodTypeValue}}</p>
+      </div>
+
+    </div>
+    <div class="details-form-group" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%"></div>
+    <div class="details-form-group" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%" fxHide.sm="true"></div>
+  </div>
+</status-panel>
+<br>
+<div fxLayout="row" fxLayout.sm="column" fxLayoutGap="10px" fxLayoutAlign="end center"fxLayoutAlign.lt-md="none">
+  <form-button data-id="btn_link" data-text="Back" type="button" type="button" fxLayout.sm="column"fxLayout.md="column" (click)="back()" [data]="{type: 'secondary', size: 'stretch'}" style="margin-right: 10px">{{'common.label.back'|translate}}</form-button>
+  <form-button data-id="btn_link" data-text="Cancel" type="button" type="button"  fxLayout.sm="column"fxLayout.md="column"(click)="cancel()" [data]="{type: 'secondary', size: 'stretch'}" style="margin-right: 10px">{{'common.label.cancel'|translate}}</form-button>
+  <form-button data-id="btn_link" data-text="Confirm" type="button" type="button"  fxLayout.sm="column"fxLayout.md="column"(click)="confirm()" [autofocus]="true" [tabindex]="1" [hasFocus]="true" [data]="{type: 'primary', size: 'stretch'}">{{'common.label.confirm'|translate}}</form-button>
+</div>
+
+<important-notices>
+  <div>
+    <span>{{'common.label.importantInformation'|translate}}</span>
+  </div>
+    <ul>
+      <li> {{ 'paymentBeneficiaries.notice.importantNotice2' | translate }} </li>
+      <li> {{ 'paymentBeneficiaries.notice.importantNotice3' | translate }} </li>
+    </ul>
+</important-notices>

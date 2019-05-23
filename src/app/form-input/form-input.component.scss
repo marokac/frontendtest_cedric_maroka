@@ -1,0 +1,26 @@
+@import "../../../../../styles/common/variables";
+
+.moreInfoLink a {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.form-group {
+  label {
+    font-size: $font-size-medium;
+    font-weight: $font-weight-medium;
+    color: $graphite-100;
+  }
+}
+
+.form-control:focus ~ .input-group__addon {
+  border-color: $brand-info;
+  color: $graphite-100 !important;
+}
+
+.altLabel {
+  color: $graphite-35;
+  font-size: 12px;
+  font-style: italic;
+  padding-left: 5px;
+}

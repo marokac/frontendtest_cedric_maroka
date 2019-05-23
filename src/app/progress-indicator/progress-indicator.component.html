@@ -1,0 +1,8 @@
+<div [ngStyle]="{'margin-bottom': '40px'}" [ngStyle.md]="{'margin-bottom': '30px'}" [ngStyle.lt-md]="{'margin-bottom': '30px'}">
+  <ol class="progress-indicator">
+    <li class="progress-indicator__item" [ngClass]="{ 'is-current': step.isCurrent, 'is-complete': step.isComplete }" *ngFor="let step of data; let i = index;">
+      <span class="progress-indicator__number">{{ i + 1 }}</span>
+      <span class="progress-indicator__title">{{ step.title }}</span>
+    </li>
+  </ol>
+</div>

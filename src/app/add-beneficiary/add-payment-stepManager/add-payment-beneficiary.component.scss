@@ -1,0 +1,144 @@
+
+@import 'src/styles/common/variables';
+@import 'src/styles/common/mixins';
+
+.padding-top {
+    padding-top: 25px;
+}
+
+// .padding {
+//   padding: 0 4% 0 0;
+// }
+
+// @media (max-height: 600px) {
+//   .padding {
+//     padding: 0px;
+//   }
+// }
+
+.save-beneficiary {
+  form-radio,
+  .radio-content {
+    width: 48%;
+    float: left
+  }
+  form-radio {
+    margin-right: 4%;
+  }
+}
+
+.date-and-time {
+  form-datepicker,
+  form-dropdown {
+    width: 48%;
+    float: left
+  }
+
+  form-datepicker {
+    margin-right: 4%;
+  }
+}
+
+.pay-new-container {
+    margin: 20px;
+    max-height: !important none;
+}
+
+.add-new-container {
+  padding-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.tabbed-nav[_ngcontent-c6] {
+    box-shadow: none !important;
+}
+
+.center {
+  margin: auto;
+  width: 30em;
+  padding: 20px;
+}
+
+.clear-both {
+  margin-bottom: 16px;
+}
+
+
+.iip-div {
+  position: relative;
+  top: 27px;
+}
+.half-width {
+  width: 47%;
+}
+
+.full-width {
+  width: 97%;
+}
+
+.third-width {
+  width: 30%;
+}
+
+.confirm-step-btn-group {
+  form-button {
+    margin-top: 10px;
+    margin-left: 5px;
+    // &:nth-child(1),
+    // &:nth-child(2) {
+    //   margin-right: 10px;
+    // }
+  }
+}
+
+///////////////////////////////////////////////////////////////////@at-root
+// legend{
+//   font-size: 18px;
+//   font-weight: 600;
+//   text-align: left;
+//   color: $graphite-100;
+//   border-bottom: 1px solid $graphite-25;
+//   margin-bottom: 25px;
+//   padding-bottom: 10px;
+// }
+
+.control-label{
+  font-size: 12px;
+  color: $graphite-48;
+  font-size: $font-size-small;
+  text-transform: uppercase;
+  font-weight: normal;
+}
+.details-form-group {
+  legend,
+  label {
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  margin-right: 4%;
+  .radio-subfield & {
+    margin-bottom: 0;
+  }
+}
+.controls{
+  .p{
+      font-size: 16px;
+      color: $graphite-100;
+  }
+}
+.form-control-static{
+  font-size: 16px;
+  color: $graphite-100;
+  font-weight: normal;
+}
+.phushText{
+  margin-right: 4%;
+  word-break : break-all;
+  max-height:60px!important;
+}
+.phushText_radio{
+  word-break : break-all;
+  max-height:200px!important;
+}

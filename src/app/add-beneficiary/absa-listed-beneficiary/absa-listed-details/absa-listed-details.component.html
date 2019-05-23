@@ -1,0 +1,189 @@
+<div [adobeanalytics]="{pageName:'CB:PaymentBeneficiaries:Absa Listed Beneficiary Setup Step', transactionName: 'Add Absa Listed Beneficiary', processName: 'Add Absa Listed Beneficiary', processStart:'true', processComplete:''}">
+
+  <cb-form adobeFrmcontainer="addAbsaListedBeneficiary-setupform" [formGroup]="setupForm" (keydown)="keyDownFunction($event, setupForm)">
+
+    <div class="section-header">
+      {{'pay.label.beneficiaryDetails' | translate}}
+    </div>
+
+  <div fxLayout.lt-md="column" fxLayoutAlign="start" fxLayoutGap.lt-md="0" fxLayoutGap="30px">
+    <form-autocomplete (keyup)="onInstitutionKeyup($event)" fxFlex="50%" fxFlex.lt-md="none" #institutionInput formControlName="institutionName" [autofocus]="true" [parentFormGroup]="setupForm"
+     [formStatus]="formStatus" [data]="{
+            name: 'institutionName',
+            label: 'pay.label.fullName' | translate,
+            placeholder: 'pay.label.searchInstitution' | translate,
+            options: institutionOptions
+        }">
+    </form-autocomplete>
+    <form-input fxFlex="50%"  fxFlex.lt-md="none" #accountNumber (keyup)="0" [formStatus]="formStatus" [parentFormGroup]="setupForm" [data]="{
+        formControlName: 'accountNumber',
+        name: 'accountNumber',
+        label: !modifiedInstitutionName ?  ('paymentBeneficiaries.addBeneficiaries.placeholder.bankAccount' | translate) : ( modifiedInstitutionName +' '+ ('pay.label.sAccountNumber'|translate)),
+        disabled: true
+
+      }">
+    </form-input>
+  </div>
+
+  <div fxLayout.lt-md="column" fxLayoutAlign="start" fxLayoutGap.lt-md="0" fxLayoutGap="30px">
+    <form-input fxFlex="50%" fxFlex.lt-md="none" [formStatus]="formStatus" [parentFormGroup]="setupForm" [data]="{
+          formControlName: 'branchCode',
+          name: 'branchCode',
+          label: 'pay.label.institutionCode' | translate,
+          disabled: true
+
+        }">
+    </form-input>
+    <div fxFlex="50%" fxFlex.lt-md="none"></div>
+  </div>
+
+  <div class="section-spacing"></div>
+  <div class="section-header">
+    {{'pay.label.youDetails'|translate}}
+  </div>
+
+  <div fxLayout.lt-md="column" fxLayoutAlign="start" fxLayoutGap.lt-md="0" fxLayoutGap="30px">
+    <form-input fxFlex="50%" fxFlex.lt-md="none" (focusout)="validateOnBlur('accountHoldersName')" [formStatus]="formStatus" [parentFormGroup]="setupForm"
+      [data]="{
+          formControlName: 'accountHoldersName',
+          name: 'accountHoldersName',
+          label: atInstitutionName ? (('pay.label.accountHoldersNameAt' | translate) +' '+atInstitutionName) : ('pay.label.accountHoldersName' | translate) ,
+          maxlength:'20',
+          placeholder: 'pay.placeholder.fullName'|translate
+        }">
+    </form-input>
+    <form-input fxFlex="50%" fxFlex.lt-md="none" (focusout)="validateOnBlur('accountHoldersRefNumber')" [formStatus]="formStatus" [parentFormGroup]="setupForm"
+      [data]="{
+        formControlName: 'accountHoldersRefNumber',
+        name: 'accountHoldersRefNumber',
+        label: atInstitutionName ? (('pay.label.accountHolderReferenceAt' | translate) +' '+atInstitutionName) : ('pay.label.accountHolderReference' | translate),
+        maxlength:'24',
+        placeholder: 'paymentBeneficiaries.placeholder.accountNumberExample' | translate }">
+    </form-input>
+  </div>
+
+  <div fxLayout.lt-md="column" fxLayoutAlign="start" fxLayoutGap.lt-md="0" fxLayoutGap="30px">
+    <form-input fxFlex="50%" fxFlex.lt-md="none"  (focusout)="validateOnBlur('myReference')" [formStatus]="formStatus" [parentFormGroup]="setupForm"
+      [data]="{
+                formControlName: 'myReference',
+                name: 'myReference',
+                label: 'pay.label.myreference'|translate,
+                placeholder: 'pay.placeholder.myreference'|translate,
+                maxlength:'20'
+              }">
+    </form-input>
+    <div fxFlex="50%" fxFlex.lt-md="none" ></div>
+  </div>
+  <br>
+
+    <div class="section-spacing"></div>
+    <div class="section-header">
+      {{'pay.label.notificationDetails'|translate}}
+    </div>
+
+  <div fxLayout.lt-md="column" fxLayoutAlign="start" fxLayoutGap.lt-md="0" fxLayoutGap="30px">
+    <form-radio [ngClass]="{'has-focus':radio_focus==1}" formControlName="notifyMeRadio" (valueChanged)="ownNOPOnOptionChange($event)"
+    fxFlex="50%" fxFlex.lt-md="none"  [formStatus]="formStatus" [parentFormGroup]="setupForm" [data]="{
+      name: 'notifyMeRadio',
+      label: 'pay.label.notifyMeRadio'|translate,
+      tooltipText:'paymentBeneficiaries.addBeneficiaries.radioButtons.tooltip'|translate,
+      options: [
+          {
+          label: 'pay.label.notifyMeNone'|translate,
+          inputID: 'notifyMeRadio',
+          name: 'N',
+          checked : setupForm.value['notifyMeRadio'] === 'N'
+          },
+          {
+          label: 'pay.label.notifyMeSMS'|translate,
+          inputID: 'notifyMeSMSGroup',
+          name: 'S',
+          checked : setupForm.value['notifyMeRadio'] === 'S'
+          },
+          {
+            label: 'pay.label.notifyMeEmail'|translate,
+            inputID: 'notifyMeEmailGroup',
+            name: 'E',
+            checked : setupForm.value['notifyMeRadio'] === 'E'
+            },
+          {
+          label: 'pay.label.notifyMeFax'|translate,
+          inputID: 'notifyMeFaxGroup',
+          name: 'F',
+          checked : setupForm.value['notifyMeRadio'] === 'F'
+          }
+      ]}">
+      <form-radio-group [formStatus]="formStatus" [parentFormGroup]="setupForm" [isVisible]="setupForm.value['notifyMeRadio'] === 'S'"
+        [data]="{
+        name: 'notifyMeSMSGroup'
+    }">
+        <form-input [formStatus]="formStatus" [parentFormGroup]="setupForm" [data]="{
+        name: 'notifyMeSMS',
+        label: 'pay.label.notifyCellphoneNumber'|translate,
+        placeholder: 'pay.label.nopCellExample' | translate,
+        disabled: true
+
+    }"></form-input>
+      </form-radio-group>
+      <form-radio-group [formStatus]="formStatus" [parentFormGroup]="setupForm" [isVisible]="setupForm.value['notifyMeRadio'] === 'E'"
+        [data]="{
+        name: 'notifyMeEmailGroup'
+    }">
+        <form-input [formStatus]="formStatus" [parentFormGroup]="setupForm" [data]="{
+        name: 'notifyMeEmail',
+        label: 'pay.label.notifyBeneficiaryEmail'|translate,
+        placeholder: 'pay.label.notifyEmailAddress' | translate,
+        disabled: true
+    }"></form-input>
+      </form-radio-group>
+      <form-radio-group [formStatus]="formStatus" [parentFormGroup]="setupForm" [isVisible]="setupForm.value['notifyMeRadio'] === 'F'"
+        [data]="{
+        name: 'notifyMeFaxGroup'
+    }">
+        <div fxLayout.sm="column" fxLayoutAlign="space-between">
+          <form-input fxFlex.gt-md="42%" fxFlex.md="42%" [formStatus]="formStatus" [parentFormGroup]="setupForm" [data]="{
+      name: 'notifyMeFaxCode',
+      label: 'pay.label.notifyFaxCode'|translate,
+      placeholder: 'pay.lebel.nopFaxCodeExample' |translate,
+      disabled: true
+      }">
+          </form-input>
+          <form-input fxFlex.gt-md="56%" fxFlex.md="56%" [formStatus]="formStatus" [parentFormGroup]="setupForm" [data]="{
+        name: 'notifyMeFaxNumber',
+        label: 'pay.label.notifyBeneficiaryFax'|translate,
+        placeholder: 'pay.label.nopFaxNumberExample' | translate,
+        disabled: true
+
+    }"></form-input>
+        </div>
+      </form-radio-group>
+      <div *ngIf="emptyNOP">
+        <div class="emptyNOPValues"> <span class="notice-of-purchase-error"><span class="icon-validation-error validation-message"></span>
+          {{'common.message.contactDetailsExists2'|translate}}</span>
+        </div>
+      </div>
+
+    </form-radio>
+    <div fxFlex="50%" fxFlex.md="none" fxFlex.lt-md="none" ></div>
+  </div>
+</cb-form>
+
+</div>
+
+<div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="15px" [ngStyle]="{'margin-top': '35px'}" [ngStyle.lt-xl]="{'margin-top': '25px'}"
+  fxLayoutAlign="end center" class="custom-btn-group" fxLayoutAlign.lt-md="none">
+  <form-button data-id="btn_link" data-text="Cancel" type="button" type="button" (click)="cancel()" [data]="{type: 'secondary', size: 'stretch'}">{{'common.label.cancel'|translate}}</form-button>
+  <form-button data-id="btn_link" data-text="Next" type="button" type="button" (click)="next(setupForm)" [data]="{type: 'primary', size: 'stretch'}">{{'common.label.next'|translate}}</form-button>
+</div>
+
+<important-notices >
+  <div>
+    <span>{{'common.label.importantInformation'|translate}}</span>
+  </div>
+    <ul>
+      <li> {{ 'paymentBeneficiaries.notice.importantNotice2' | translate }} </li>
+      <li> {{ 'paymentBeneficiaries.notice.importantNotice3' | translate }} </li>
+    </ul>
+</important-notices>
+
+

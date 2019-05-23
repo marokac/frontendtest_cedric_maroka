@@ -1,0 +1,203 @@
+@import '../../../../../../../../styles/common/variables.scss';
+@import '../../../../../../../../styles/common/mixins';
+
+.container {
+  .btn-close {
+    padding: 5px 10px;
+    position: relative;
+    cursor: pointer;
+    right: -1%;
+    top: 7px;
+    float: right;
+    .icon.primary-icon {
+      color: $graphite-100;
+      font-size: 14px;
+      font-weight: 300;
+    }
+  }
+  $row-height: 50px;
+  .table-container {
+   // overflow-y: scroll;
+    overflow: hidden;
+    width: 90%;
+    margin: 0 auto;
+    
+  }
+  .table-rwapper{
+    display: table-cell;
+    overflow-x: auto;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  table {
+    width: 100%;
+    td {
+      text-align: left;
+    }
+    td:nth-child(3) {
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+
+    }
+    .beneficiary-number {
+      width: 10%;
+      text-align: center;
+    }
+    .beneficiary-name {
+      width: 33%;
+    }
+    .my-reference {
+      width: 32%;
+
+    }
+    .last-payment-date {
+      width: 33%
+    }
+    tbody {
+      border: 1px solid $graphite-25;
+      display: block;
+      width: 100%;
+      max-height: ($row-height * 5);
+      overflow-y: scroll;
+      overflow-x: hidden;
+      overflow: auto;
+
+      tr {
+        display:table;
+        width:100%;
+        table-layout:fixed;
+        border-bottom: 1px solid $graphite-25;
+        &:hover {
+          cursor: pointer;
+        }
+        &:last-child{
+          border-bottom: 0px;
+        }
+        td {
+          height: $row-height;
+          .small-text {
+            font-size: 10px;
+            color: $graphite-35;
+          }
+
+          @media only screen and (max-width: 768px) {
+            font-size: 80%;
+          }
+        }
+        &.row-selected {
+          background-color: $brand-info-bg;
+          outline: 0;
+          td {
+            border-top: 1px solid $brand-info;
+            border-bottom: 1px solid $brand-info;
+            &:first-child {
+              border-left: 1px solid $brand-info;
+            }
+            &:last-child {
+              border-right: 1px solid $brand-info;
+            }
+          }
+        }
+        &.row-before-selected {
+          td {
+            border-bottom: 1px solid $brand-info;
+          }
+        }
+      }
+    }
+    thead {
+      display: block;
+      border-left: 1px solid $graphite-25;
+      border-right: 1px solid $graphite-25;
+      border-top: 1px solid $graphite-25;
+      background-color: $graphite-13;
+      text-transform: uppercase;
+      white-space: nowrap;
+      .icon-table-filter {
+        color: $graphite-100;
+        display: none;
+        font-size: 4px;
+        margin-left: 5px;
+        vertical-align: 1px;
+        padding-right: 10px;
+        &.show{
+         // display: inline-block;
+        }
+        &.clicked{
+           margin-left: -10px;
+           padding-right: 15px;
+          -webkit-transform: rotate(180deg);
+          -moz-transform:  rotate(180deg);
+          -ms-transform:  rotate(180deg);
+          -o-transform:  rotate(180deg);
+          transform:  rotate(180deg);
+        }
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      .text {
+        &.sort{
+         // color: $graphite-100;
+        }
+        @media only screen and (max-width: 768px) {
+          font-size: 80%;
+        }
+      }
+      .help-icon {
+        display: inline-block;
+        font-size: $font-size-xl;
+        color: $brand-plum-light;
+      }
+    }
+    tr {
+      width: 100%;
+      display:table;
+      table-layout:fixed;
+      height: $row-height;
+    }
+    td:nth-child(1) {
+      padding: 5px 1%;
+    }
+    td:nth-child(2) {
+      width: 35%;
+    }
+    td:nth-child(3) {
+      width: 25%;
+    }
+
+  }
+
+  h2 {
+    font-size: 14px;
+    color: $graphite-82;
+
+  }
+
+  .button-container {
+    padding: 10px 0px;
+  }
+  .institution-name-text {
+    margin-left: 5px;
+  }
+
+}
+
+.errormessage-container {
+  width: 90%;
+  margin: 0 auto 10px;
+}
+
+.btn-close {
+  padding: 5px 10px;
+  position: absolute;
+  cursor: pointer;
+  top: 7px;
+  float: right;
+  z-index: 1;
+  .icon.primary-icon {
+    color: $graphite-100;
+    font-size: 14px;
+    font-weight: 300;
+  }
+}

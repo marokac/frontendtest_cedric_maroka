@@ -1,0 +1,113 @@
+@import '../../../../styles/common/variables';
+@import '../../../../styles/common/mixins';
+
+$step-width:        130px;
+$step-number-width: 30px;
+$step-margin:       65px;
+$transition:        .5s cubic-bezier(.5, .14, .36, 1);
+
+.progress-indicator {
+  @include clearfix;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.progress-indicator__item {
+  float: left;
+  position: relative;
+  transition: width $transition;
+  width: $step-number-width;
+
+  + .progress-indicator__item {
+    margin-left: 65px;
+    @media screen and (max-width: 576px){
+      margin-left: 30px;
+    }
+    &::before {
+      background: $graphite-35;
+      content: '';
+      height: 1px;
+      left: -($step-width + $step-margin);// - $step-margin;
+      position: absolute;
+      top: $step-number-width / 2;
+      transition: all $transition;
+      width: $step-width + $step-margin;
+      z-index: 1;
+      @media screen and (max-width: 576px){
+        left:-50px;
+        width:$step-margin;
+      }
+    }
+
+    &.is-current,
+    &.is-complete {
+      &::before {
+        left: -$step-margin;
+        width: $step-margin;
+        @media screen and (max-width:576px){
+          left:-30px;
+          width:$step-margin;
+        }
+      }
+    }
+  }
+
+  &.is-current {
+    width: $step-width;
+  }
+}
+
+.progress-indicator__number {
+  background: $white;
+  border: 1px solid $graphite-35;
+  border-radius: $step-number-width;
+  color: $graphite-35;
+  cursor: default;
+  display: inline-block;
+  height: $step-number-width + 1;
+  line-height: 27px;
+  position: relative;
+  text-align: center;
+  transition: all $transition;
+  width: $step-number-width + 1;
+  z-index: 3;
+
+  .is-current &,
+  .is-complete & {
+    background:$white;
+    border: 1px solid  $graphite-35;
+    color:  $graphite-35;
+  }
+}
+
+.progress-indicator__title {
+  background: $white;
+  border-radius: $step-number-width;
+  color: $white;
+  display: inline-block;
+  font-size: 14px;
+  height: $step-number-width;
+  left: 0;
+  line-height: 24px;
+  overflow: hidden;
+  padding: 2px 7px;
+  position: absolute;
+  text-align: center;
+  top: 1px;
+  transition: all $transition;
+  visibility: hidden;
+  width: 0;
+  z-index: 2;
+
+  .is-current & {
+    background:$white;
+    color:$graphite-35;
+    padding: 2px 7px 2px $step-number-width;
+    visibility: visible;
+    width: $step-width;
+    height: 31px;
+    margin-top: -1px;
+    border: 1px solid $graphite-35;
+  }
+}

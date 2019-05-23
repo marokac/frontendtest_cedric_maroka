@@ -1,0 +1,203 @@
+
+<div style="margin-top: 20px" [adobeanalytics]="{pageName:'CB:PaymentBeneficiaries:Absa Listed Complete Step', processComplete:'true', processStart:'false'}" *ngIf="!errorDetail.isError">
+  <!-- <status-panel [data]="{title: 'Beneficiary added successfully', subtitle: '',icon: 'success', status: 'success'}">
+  </status-panel> -->
+  <status-panel (onStatusHeaderButton)="onStatusHeaderButton($event)" [data]="{title: tittleSuccessfully , subtitle: dateString ,icon: 'result-success', status: 'success',buttons:printButtonS}"
+    fxLayout="column">
+
+    <div class="section-header">
+      {{'pay.label.beneficiaryDetails'|translate}}
+    </div>
+
+    <div fxLayout.sm="column" fxLayoutAlign="space-between">
+      <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+        <label for="beneficiaryNumber" class="control-label">{{ 'common.label.BeneficiaryNumber'|translate }}</label>
+        <div class="controls">
+          <p id="beneficiaryNumber" class="form-control-static">{{beneficiaryNumber}}</p>
+        </div>
+      </div>
+    </div>
+    <div fxLayout.sm="column" fxLayoutAlign="space-between">
+      <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+        <label for="fromAccount" class="control-label">{{ 'pay.label.institutionName'|translate }}</label>
+        <div class="controls">
+          <p id="fullName" class="form-control-static">{{formData.institutionName}}</p>
+        </div>
+      </div>
+      <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+        <label for="accountNumber" class="control-label"><b>{{formData.institutionName}}{{'pay.label.s'|translate}}</b> {{ 'pay.label.sAccountNumber'|translate }} </label>
+        <div class="controls">
+          <p id="accountNumber" class="form-control-static">{{formData.accountNumber}}</p>
+        </div>
+      </div>
+      <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+        <label for="branchCode" class="control-label">{{ 'pay.label.institutionCode'| translate }}</label>
+        <div class="controls">
+          <p id="branchCode" class="form-control-static">{{formData.branchCode}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-spacing"></div>
+    <div class="section-header">
+      {{'pay.label.youDetails'|translate}}
+    </div>
+
+    <div fxLayout.sm="column" fxLayoutAlign="space-between">
+      <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+        <label for="BranchName" class="control-label">{{ 'pay.label.accountHoldersNameAt'| translate }} <b>{{formData.institutionName}}</b></label>
+        <div class="controls">
+          <p id="BranchName" class="form-control-static">{{formData.accountHoldersName}}</p>
+        </div>
+      </div>
+      <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+        <label for="saveBeneficiaryRadio" class="control-label">{{'pay.label.accountOrReferencenumber'| translate }} <b>{{formData.institutionName}}</b></label>
+        <div class="controls">
+          <p id="saveBeneficiaryRadio" class="form-control-static">{{formData.accountHoldersRefNumber}}</p>
+        </div>
+      </div>
+
+      <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+        <label for="myReference" class="control-label">{{ 'pay.label.myreference'|translate }}</label>
+        <div class="controls">
+          <p id="myReference" class="form-control-static">{{formData.myReference}}</p>
+        </div>
+      </div>
+
+    </div>
+
+      <div class="section-spacing"></div>
+      <div class="section-header">
+        {{'pay.label.notificationDetails'|translate}}
+      </div>
+
+    <div fxLayout.sm="column" fxLayoutAlign="space-between">
+      <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%" *ngIf="notifyMe">
+          <div for="notifyMe" class="notice-of-purchase-header" [ngStyle]="{'margin-top': '-20px'}">
+            {{'paymentBeneficiaries.label.myNotifyOfPayment'|translate}}
+          </div>
+        </div>
+
+      <!-- <div class="details-form-group" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%" *ngIf="notifyBeneficiary"></div>
+      <div class="details-form-group" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%" fxHide.sm="true"></div> -->
+    </div>
+
+    <div fxLayout.sm="column"  fxLayoutGap="15px" fxLayoutAlign="space-between">
+      <div class="details-form-group" style="word-break: break-all" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%" *ngIf="notifyMe">
+        <label for="beneficiaryReference" *ngIf="isOwnNone" class="control-label">{{notifyMe.sendViaLabel}}</label>
+        <div class="controls">
+          <p id="beneficiaryReference" class="form-control-static">{{notifyMe.sendViaValue}}</p>
+        </div>
+
+        <label for="beneficiaryReference" class="control-label">{{notifyMe.methodTypeLabel}}</label>
+        <div class="controls">
+          <p id="beneficiaryReference" class="form-control-static">{{notifyMe.methodTypeValue}}</p>
+        </div>
+
+      </div>
+      <!-- <div class="details-form-group" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%"></div>
+      <div class="details-form-group" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%" fxHide.sm="true"></div> -->
+    </div>
+  </status-panel>
+  <br>
+  <div fxLayout="row" fxLayout.sm="column" fxLayoutGap="10px" fxLayoutAlign="end center"fxLayoutAlign.lt-md="none">
+    <form-button data-id="btn_link" data-text="Done" type="button" fxLayout.sm="column" (click)="done()" [data]="{type: 'secondary', size: 'lg'}" style="margin-right: 10px">{{'common.label.done'|translate}}</form-button>
+    <form-button *ngIf="!switchData" data-id="btn_link" data-text="Add Another Beneficiary" type="button" fxLayout.sm="column" (click)="another()" [data]="{type: 'secondary', size: 'lg'}" style="margin-right: 10px">{{'prepaidMobile.button.addAnotherBeneficiary'|translate}}</form-button>
+    <form-button data-id="btn_link" data-text="Pay This Beneficiary" type="button"  (click)="payThisBeneficiary()" fxLayout.sm="column"[data]="{type: 'primary', size: 'lg'}">{{'paymentBeneficiaries.addBeneficiaries.button.payThisBeneficiary'|translate}}</form-button>
+  </div>
+</div>
+
+<div style="margin-top: 20px" [adobeanalytics]="{pageName:'CB:PaymentBeneficiaries:Absa Listed Complete Error Step', processComplete:'true', processStart:'false'}" *ngIf="errorDetail.isError">
+  <status-panel (onStatusHeaderButton)="onStatusHeaderButton($event)" [data]="panelData">
+
+    <div class="section-header">
+      {{'pay.label.beneficiaryDetails'|translate}}
+    </div>
+
+    <div fxLayout.sm="column"  fxLayoutAlign="space-between">
+      <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+        <label for="fromAccount" class="control-label">{{ 'pay.label.institutionName'|translate }}</label>
+        <div class="controls">
+          <p id="fullName" class="form-control-static">{{formData.institutionName}}</p>
+        </div>
+      </div>
+      <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+        <label for="accountNumber" class="control-label"><b>{{formData.institutionName}}{{'pay.label.s'|translate}}</b> {{ 'pay.label.sAccountNumber'|translate }} </label>
+        <div class="controls">
+          <p id="accountNumber" class="form-control-static">{{formData.accountNumber}}</p>
+        </div>
+      </div>
+      <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+        <label for="branchCode" class="control-label">{{ 'pay.label.institutionCode'| translate }}</label>
+        <div class="controls">
+          <p id="branchCode" class="form-control-static">{{formData.branchCode}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-spacing"></div>
+    <div class="section-header">
+      {{'pay.label.youDetails'|translate}}
+    </div>
+
+    <div fxLayout.sm="column" fxLayoutAlign="space-between">
+      <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+        <label for="BranchName" class="control-label">{{ 'pay.label.accountHoldersNameAt'| translate }} <b>{{formData.institutionName}}</b></label>
+        <div class="controls">
+          <p id="BranchName" class="form-control-static">{{formData.accountHoldersName}}</p>
+        </div>
+      </div>
+      <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+        <label for="saveBeneficiaryRadio" class="control-label">{{'pay.label.accountOrReferencenumber'| translate }} <b>{{formData.institutionName}}</b></label>
+        <div class="controls">
+          <p id="saveBeneficiaryRadio" class="form-control-static">{{formData.accountHoldersRefNumber}}</p>
+        </div>
+      </div>
+
+      <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%">
+        <label for="myReference" class="control-label">{{ 'pay.label.myreference'|translate }}</label>
+        <div class="controls">
+          <p id="myReference" class="form-control-static">{{formData.myReference}}</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-spacing"></div>
+    <div class="section-header">
+      {{'pay.label.notificationDetails'|translate}}
+    </div>
+
+    <div fxLayout.sm="column" fxLayoutAlign="space-between">
+      <div class="details-form-group" fxFlex.md= "33%" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%" *ngIf="notifyMe">
+        <div for="notifyMe" class="notice-of-purchase-header" [ngStyle]="{'margin-top': '-20px'}">
+          {{'paymentBeneficiaries.label.myNotifyOfPayment'|translate}}</div>
+      </div>
+      <!-- <div class="details-form-group" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%" *ngIf="notifyBeneficiary"></div>
+      <div class="details-form-group" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%" fxHide.sm="true"></div> -->
+    </div>
+
+    <div fxLayout.sm="column"  fxLayoutGap="15px" fxLayoutAlign="space-between">
+      <div class="details-form-group" style="word-break: break-all" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%" *ngIf="notifyMe">
+        <label for="beneficiaryReference" *ngIf="isOwnNone" class="control-label">{{notifyMe.sendViaLabel}}</label>
+        <div class="controls">
+          <p id="beneficiaryReference" class="form-control-static">{{notifyMe.sendViaValue}}</p>
+        </div>
+
+        <label for="beneficiaryReference" class="control-label">{{notifyMe.methodTypeLabel}}</label>
+        <div class="controls">
+          <p id="beneficiaryReference" class="form-control-static">{{notifyMe.methodTypeValue}}</p>
+        </div>
+
+      </div>
+      <!-- <div class="details-form-group" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%"></div>
+      <div class="details-form-group" fxFlex.lg="33%" fxFlex.xl="33%" fxFlex.xxl="33%" fxHide.sm="true"></div> -->
+    </div>
+  </status-panel>
+  <br>
+  <div fxLayout="row" fxLayout.sm="column" fxLayoutGap="10px" fxLayoutAlign="end center"fxLayoutAlign.lt-md="none">
+    <form-button data-id="btn_link" data-text="Add Another Beneficiary" type="button" fxLayout.sm="column" *ngIf="!errorDetail.isError" (click)="another()" [data]="{type: 'secondary', size: 'stretch'}" style="margin-right: 10px">{{'paymentBeneficiaries.addBeneficiaries.button.addAnotherBeneficiary'|translate}}</form-button>
+    <form-button data-id="btn_link" data-text="Pay This Beneficiary" type="button" fxLayout.sm="column" *ngIf="!errorDetail.isError" [data]="{type: 'primary', size: 'stretch'}">{{'paymentBeneficiaries.addBeneficiaries.button.payThisBeneficiary'|translate}}</form-button>
+    <form-button data-id="btn_link" data-text="Done" type="button" fxLayout.sm="column" (click)="done()" [autofocus]="true" [tabindex]="1" [hasFocus]="true" [data]="{type: 'primary', size: 'stretch'}" style="margin-right: 10px">{{'common.label.done'|translate}}</form-button>
+  </div>
+</div>

@@ -1,0 +1,121 @@
+<app-dialog-modal>
+  <div class="container">
+    <div class="custom-header">
+      <a class="btn-close" (click)="onheadercancel()">
+       <span class="icon primary-icon icon-close dialog-icon-close"> </span>
+      </a>
+      <h1>&nbsp;</h1>
+      <h1>&nbsp;</h1>
+      <h1> {{ 'paymentBeneficiaries.addBeneficiaries.beneficiaryExistAlert.title'|translate }}</h1>
+      <h2> {{ 'paymentBeneficiaries.addBeneficiaries.beneficiaryExistAlert.subtitle1'|translate }}</h2>
+      <h2> {{ 'paymentBeneficiaries.label.alreadyExistsMessage.youCanCancelTransaction'|translate}}.</h2>
+      <h2>&nbsp;</h2>
+    </div>
+
+    <div class="table-container custom-body">
+      <table>
+        <thead>
+          <tr>
+            <td class="beneficiary-number">
+              <span class="text" [ngClass]="{'sort':sortByNum}">#</span>
+              <i class="icon icon-table-filter" [ngClass]="{'clicked':sortByNum,'show':sortedData.length > 1}" (click)="sortRows('beneficiaryNumber')"></i>
+            </td>
+            <td  *ngIf="!absaListed" class="beneficiary-name">
+
+              <span class="text"[ngClass]="{'sort':sortByName}">
+                {{ 'paymentBeneficiaries.tileHeader.label.fullName'|translate }}
+              </span>
+              <i class="icon icon-table-filter" [ngClass]="{'clicked':sortByName,'show':sortedData.length > 1}" (click)="sortRows('beneficiaryName')"></i>
+            </td>
+            <td  *ngIf="absaListed" class="beneficiary-name">
+              <span class="text">
+                {{ 'pay.label.institutionName'|translate }}
+              </span>
+              <i class="icon icon-table-filter"></i>
+            </td>
+            <td class="my-reference">
+              <span class="text"[ngClass]="{'sort':sortByRef}">
+                {{ 'common.label.myReference'|translate }}
+              </span>
+              <i *ngIf="absaListed" class="help-icon icon-help"></i>
+              <i class="icon icon-table-filter" [ngClass]="{'clicked':sortByRef,'show':sortedData.length > 1}" (click)="sortRows('sourceAccountReference')"></i>
+            </td>
+            <td class="last-payment-date">
+              <span class="text" [ngClass]="{'sort':lastTrans}">
+                {{ 'prepaidMobile.label.lastTransaction'|translate }}
+              </span>
+              <i *ngIf="absaListed" class="icon icon-help"></i>
+              <i class="icon icon-table-filter" [ngClass]="{'clicked':lastTrans,'show':sortedData.length > 2}" (click)="sortRows('lastPaymentDateAndTime')"></i>
+            </td>
+          </tr>
+        </thead>
+        <tbody *ngIf="existingBen" class="table-rwapper">
+          <tr *ngFor="let ownDefinedBeneficiary of sortedData; let i = index">
+            <td class="beneficiary-number">
+              <div class="big-text">
+                {{ownDefinedBeneficiary.beneficiaryNumber}}
+              </div>
+            </td>
+            <td class="beneficiary-name">
+              <div class="text-container">
+                <div class="big-text">
+                  {{ownDefinedBeneficiary.beneficiaryName}}
+                </div>
+                <div class="small-text">
+                  {{ownDefinedBeneficiary.targetAccountNumber}} | {{ ownDefinedBeneficiary['beneficiaryDetailsVO'].bankName }}
+                </div>
+              </div>
+            </td>
+            <td class="my-reference">
+              <div class="text-container">
+                <div class="big-text">
+                    {{ownDefinedBeneficiary['beneficiaryDetailsVO'].sourceAccountReference}}
+                </div>
+                <!-- <div class="small-text">
+                    {{ownDefinedBeneficiary['beneficiaryDetailsVO'].lastPaymentSourceAccountNumber}}
+                </div> -->
+              </div>
+            </td>
+            <td class="last-payment-date"
+              *ngIf="ownDefinedBeneficiary['beneficiaryDetailsVO'].lastPaymentDateAndTime !== null">
+              <div class="text-container">
+                <div class="big-text">
+                    {{ownDefinedBeneficiary['beneficiaryDetailsVO'].lastPaymentDateAndTime | sgFormatDate: 'DD MMMM YYYY'}}
+                </div>
+                <div class="small-text">
+                    {{ownDefinedBeneficiary['beneficiaryDetailsVO'].lastPaymentAmount | convertNumberToCurrency }}
+                </div>
+              </div>
+            </td>
+            <td class="last-payment-date" *ngIf="ownDefinedBeneficiary['beneficiaryDetailsVO'].lastPaymentDateAndTime === null">{{'pay.label.noPaymentHistory' | translate}}</td>
+          </tr>
+      </tbody>
+      </table>
+    </div>
+    <div class="custom-footer">
+      <h2>&nbsp;</h2>
+      <div class="button-container">
+        <form-button
+          type="button"
+          (click)="onAddNewBeneficiary()"
+          [data]="{
+            type: 'secondary',
+            size: 'lg'
+          }"
+          style="margin-right: 10px">
+          {{'paymentBeneficiaries.addBeneficiaries.button.addNewBeneficiaryFromBenExist'|translate}}
+        </form-button>
+        <form-button
+          type="button"
+          (click)="cancel()"
+          [data]="{
+            type: 'primary',
+            size: 'lg'
+          }">
+
+          {{'common.label.cancelTransaction'|translate}}
+        </form-button>
+      </div>
+    </div>
+    </div>
+</app-dialog-modal>
