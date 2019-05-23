@@ -1,0 +1,168 @@
+<div class="tile"
+  tabindex="-1"
+  [cbFocus]="setFocus"
+  [ngClass]="{
+    'tile--type-beneficiary': itemData.type === 'beneficiary' || itemData.type === 'beneficiarySwitching' ,
+    'tile--type-beneficiarySwitching': itemData.type === 'beneficiarySwitching',
+    'tile--type-account': itemData.type === 'account',
+    'tile--type-settings': itemData.type === 'settings',
+    'tile--type-5-column': itemData.fields.length === 5,
+    'tile-dropdown-is-open': actionsDropdownIsOpen,
+    'drawer--is-showing': drawerIsOpen,
+    'tile--is-hidden': tileIsHidden,
+    'tile--is-open': tileIsOpen,
+    'tile--is-transition-in': itemData.transitionIn,
+    'tile--has-single-action': hasSingleAction,
+    'tile--actions-in-more-dropdown': actionsInDropdown}"
+  [attr.aria-label]="ariaLabel"
+  [tabIndex]="containerTabIndex">
+  <div
+    *ngIf="itemData?.spinner?.showSpinner === true"
+    class="tile--is-loading">
+      <spinner isCompact=true [isGrey]="itemData.spinner?.isSpinnerGrey === true"></spinner>
+  </div>
+  <div class="tile__content">
+    <div class="tile__accent" [ngClass]="itemData.accentColourClass"></div>
+    <div
+      *ngIf="updatingTileHeaderContent"
+      class="tile--is-loading">
+        <spinner isCompact=true [isGrey]="itemData.spinner?.isSpinnerGrey === true"></spinner>
+    </div>
+    <a href=""
+      class="tile__default-action"
+      (click)="onDefaultActionClick($event)"
+      *ngIf="defaultAction"
+      [attr.aria-label]="ariaLabel">
+    </a>
+    <a href=""
+      class="tile__default-action_dummy"
+      (click)="onDefaultActionDummyClick($event)"
+      *ngIf="!defaultAction"
+      [attr.aria-label]="ariaLabel">
+    </a>
+    <div class="tile__data"
+      [ngClass]="{
+        'is-showing-more': moreIsShowing,
+        'balances-is-showing': dataBalancesIsShowing}">
+      <div
+        class="tile__data-item"
+        *ngFor="let field of itemData.fields | slice:0:1;"
+        #tileSizerContainerOne
+        [ngClass]="{
+          'data-item--is-balance': field.type === 'balance',
+          'data-item--is-compact': field.compact || itemData.type === 'beneficiary',
+          'data-item--is-medium': field.sizeMedium,
+          'data-item--is-hidden': field.hidden
+        }"
+      >
+      <span class="tile__name-tile__sizer"
+      #tileSizerOne>{{ field.title }}
+      </span>
+      <span class="tile__name-title"
+        [ngClass]="{
+          'name-title--is-normal': field.fieldSize === 'normal',
+          'name-title--is-large': field.fieldSize === 'large',
+          'name-title--is-larger': field.fieldSize === 'larger'
+        }"
+      >{{ field.title }}</span>
+        <span class="tile__name-subtitle" *ngIf="field.subtitle">{{ field.subtitle }}</span>
+      </div>
+      <div class="tile__data-balances-wrapper"
+      [ngClass]="{'tile__data-balances-wrapper--left-align':  itemData.type === 'beneficiary'}"
+      *ngIf="itemData.fields.length > 1">
+        <div class="tile__data-balances-dropdown" #dataBalances>
+          <div class="tile__data-balances">
+            <a href="" class="tile__data-balances-close" (click)="onHideBalancesClick($event)">
+              <span class="icon icon-close"></span>
+            </a>
+            <div
+              class="tile__data-item"
+              *ngFor="let field of itemData.fields | slice:1;"
+              #tileSizerContainerTwo
+              [ngClass]="{
+                'data-item--is-balance': field.type === 'balance',
+                'data-item--is-compact': field.compact,
+                'data-item--is-wide': field.wide,
+                'data-item--is-medium': field.sizeMedium
+              }"
+            >
+              <span class="tile__name-heading" *ngIf="field.columnHeading">{{ field.columnHeading }}</span>
+              <span
+                class="tile__name-title"
+                [ngClass]="{
+                  'name-title--is-normal': field.fieldSize === 'normal',
+                  'name-title--is-large': field.fieldSize === 'large',
+                  'name-title--is-larger': field.fieldSize === 'larger'
+                }"
+              >{{ field.title }}</span>
+              <span class="tile__name-tile__sizer"
+                #tileSizerTwo>{{ field.title }}
+              </span>
+              <span class="tile__name-subtitle">{{ field.subtitle }}
+                <span *ngIf="field.beneficiaryBank"><span class="separator">|</span>{{ field.beneficiaryBank }}</span>
+              </span>
+            </div>
+          </div>
+          <a href="" class="tile__data-balances-show" (click)="onShowBalancesClick($event)"><span></span><span></span><span></span></a>
+        </div>
+      </div>
+      <a href="" class="tile__show-more" (click)="onShowMore($event)" *ngIf="!moreIsShowing && needMoreLink">View more</a>
+      <a href="" class="tile__show-more" (click)="onShowLess($event)" *ngIf="moreIsShowing && needMoreLink">View less</a>
+    </div>
+
+    <a
+      href="#"
+      tabIndex="99"
+      class="tile__more"
+      (click)="onMoreClick($event)"
+      (keydown.enter)="onMoreKeyboard($event)"
+      aria-label="More"
+      aria-haspopup="true"
+      [attr.aria-expanded]="actionsDropdownIsOpen"
+      [ngClass]="{
+        'action-overflow': actionOverflowCount > 0,
+        'tile__more--open' : actionsDropdownIsOpen
+      }">
+      <span class="tile__more-title">{{translations['more']}}</span>
+      <div class="tile__more-icon">
+        <span class="icon icon-chevron-down-thin"></span>
+      </div>
+    </a>
+    <a
+      href="#"
+      class="tile__open"
+      (click)="onOpenClick($event)">
+    </a>
+    <actions
+      [itemData]="itemData"
+      (keyDownEvent)=actionKeyDownEvent($event)
+      (actionClickEvent)="actionClick($event)"
+      (subActionClickEvent)="subActionClick($event)"
+      [actionsDropdownIsOpen]="actionsDropdownIsOpen"
+      [moreButtonKeyboardPressed]="moreButtonKeyboardPressed"
+      [tileIndex]="tileIndex">
+    </actions>
+    <a
+      href="#"
+      class="tile__close"
+      (click)="onCloseClick($event)"
+      [cbFocus]="focusOnCloseButton">
+      <span class="tile__close-label">{{'common.label.close'|translate}}</span>
+      <div class="tile__close-icon">
+        <span class="icon icon-close"></span>
+      </div>
+    </a>
+  </div>
+  <div class="tile__drawer">
+    <div class="tile__drawer-innerOLD"
+      [ngClass]=" {
+        'tile__drawer-inner': drawerNoPadding == null,
+        'wrapper__tile-content--width-limited': drawerNoLimitedWidth == null
+      }">
+      <!-- Removed style.padding as it gave the warning in the console - sanitizing unsafe style value -->
+      <panel [itemData]="itemData"></panel>
+    </div>
+  </div>
+</div>
+
+<div class="tile__modal-mask"></div>

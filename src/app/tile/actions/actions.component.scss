@@ -1,0 +1,401 @@
+@import '../../../../../styles/common/variables';
+@import '../../../../../styles/common/mixins';
+
+// Variables
+// --------------
+$shadow-dropdown:         0 2px 3px rgba($black, .2);
+$tile-height:             72px;
+
+// Mixins
+// --------------
+@mixin actions-mode--normal() {
+  background: transparent;
+  display: block;
+  box-shadow: none;
+  position: relative;
+  top: inherit;
+  min-width: inherit;
+  margin-right: 10px;
+}
+
+@mixin actions-mode--more() {
+  background: $graphite-8;
+  border-radius: 0 0 $border-radius-base $border-radius-base;
+  box-shadow: $shadow-dropdown;
+  margin: 0;
+  min-width: 260px;
+  position: absolute;
+  right: 0;
+  top: $tile-height;
+
+  .tile__action-item {
+    @include clearfix;
+    color: $graphite-100;
+    display: block;
+    float: none;
+    height: auto;
+    min-height: auto;
+    padding: 15px;
+
+    + .tile__action-item {
+      border-top: 1px solid $graphite-13;
+    }
+
+    &:hover,
+    &:focus {
+      background: $graphite-5;
+
+      &.has-subitems {
+        background: $graphite-8;
+        cursor: default;
+      }
+    }
+
+    &.has-subitems {
+      padding-bottom: 0;
+    }
+  }
+
+  .tile__action-icon {
+    display: inline;
+    margin-right: 12px;
+  }
+
+  .tile__action-title {
+    font-size: $font-size-base;
+  }
+}
+
+@mixin item-mode--normal() {
+  background: transparent;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  box-shadow: none;
+  color: $graphite-100;
+  display: flex;
+  flex-direction: column;
+  float: left;
+  height: $tile-height;
+  justify-content: center;
+  min-height: $tile-height;
+  min-width: 60px;
+  padding: 0 3px;
+  position: relative;
+  transition: .2s;
+
+  .tile__action-title {
+    font-size: $font-size-small;
+    text-align: center;
+  }
+
+  .tile__action-icon {
+    display: block;
+    margin-right: 0;
+  }
+}
+
+@mixin item-mode--more() {
+  @include clearfix;
+  display: block;
+  float: none;
+  height: auto;
+  min-height: auto;
+  padding: 15px 32px;
+
+  + .tile__action-item {
+    border-top: 1px solid $graphite-25;
+  }
+
+  &:hover,
+  &:focus {
+    background: $white;
+  }
+}
+// ------------
+
+
+.tile__actions {
+  @include clearfix;
+  display: none;
+  float: right;
+  margin: 0 10px 0 0;
+  position: relative;
+  transition: all .4s;
+  z-index: $zindex-tile-actions;
+
+  @include media-breakpoint-up(lg) {
+    display: block;
+
+    .is-overflow-action {
+      display: block;
+    }
+
+    // If the character count of the Action titles is above the MAX, roll the
+    // actions up into the "More" dropdown at the xxl breakpoint
+    .tile--actions-in-more-dropdown & {
+      display: none;
+    }
+  }
+
+  // If the character count of the Action titles is above the MAX, roll the
+  // actions up into the "More" dropdown at the xxl breakpoint
+  .tile--actions-in-more-dropdown & {
+    @include media-breakpoint-up(xxl) {
+      display: block;
+    }
+
+    @include media-breakpoint-down(xl) {
+      @include actions-mode--more();
+    }
+  }
+
+  .tile-dropdown-is-open & {
+    display: block;
+    z-index: $zindex-nav-dropdown;
+  }
+
+  &.actions-popup--is-showing {
+    z-index: $zindex-nav-dropdown;
+  }
+
+  .drawer--is-showing & {
+    display: none;
+  }
+
+  .tile--is-open & {
+    background: $graphite-5;
+    border-radius: 0;
+    box-shadow: 0 1px 4px rgba($black, .2) inset, 0 2px 2px rgba($black, .15);
+    display: block;
+    float: none;
+    margin: 0;
+    position: relative;
+    top: auto;
+  }
+
+  &.tile__actions--closed {
+    display: none;
+  }
+
+  .tile--has-single-action & {
+    @include media-breakpoint-up(sm) {
+      @include actions-mode--normal();
+    }
+
+    @include media-breakpoint-only(sm) {
+      position: absolute;
+    }
+  }
+
+  @at-root .tile--has-single-action.drawer--is-showing .tile__actions {
+    display: none;
+  }
+
+  &.tile__actions--overflow {
+    @include actions-mode--more();
+
+    @include media-breakpoint-up(lg) {
+      display: none;
+
+      .tile-dropdown-is-open & {
+        display: block;
+      }
+
+      // If the character count of the Action titles is above the MAX,
+      // hide the .tile__actions--overflow div at this breakpoint. We will show
+      // it at the xxl breakpoint
+      .tile--actions-in-more-dropdown & {
+        @include media-breakpoint-up(lg) {
+          display: none;
+        }
+      }
+
+      .tile__action-subitem + .tile__action-subitem {
+        border-top: 0;
+      }
+    }
+
+    // If the character count of the Action titles is above the MAX, show
+    // the .tile__actions--overflow div from the xxl breakpoint
+    @include media-breakpoint-up(xxl) {
+      .tile--actions-in-more-dropdown.tile-dropdown-is-open & {
+        display: block;
+      }
+    }
+
+    @include media-breakpoint-down(lg) {
+      display: none;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    @include actions-mode--more();
+
+    .tile__action-subitem + .tile__action-subitem {
+      border-top: 0;
+    }
+  }
+}
+
+.tile__action-item {
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  color: $graphite-100;
+  display: flex;
+  flex-direction: column;
+  float: left;
+  height: $tile-height;
+  justify-content: center;
+  min-height: $tile-height;
+  min-width: 60px;
+  padding: 0 5px;
+  position: relative;
+  transition: $transition-duration;
+
+  &:hover,
+  &:focus {
+    background: $graphite-8;
+    color: $graphite-100;
+    text-decoration: none;
+  }
+
+  &.actions-popup--is-showing {
+    background: $graphite-8;
+    border-left-color: $graphite-13;
+    border-right-color: $graphite-13;
+    color: $graphite-100;
+    text-decoration: none;
+  }
+
+  @include media-breakpoint-down(md) {
+    @include item-mode--more;
+  }
+
+  .tile--has-single-action & {
+    @include media-breakpoint-up(sm) {
+      @include item-mode--normal();
+
+      &:hover,
+      &:focus {
+        background: $graphite-8;
+        color: $graphite-100;
+        text-decoration: none;
+      }
+    }
+  }
+
+  &.is-overflow-action {
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+  }
+
+  .tile--is-open & {
+    @include clearfix;
+    display: block;
+    float: none;
+    height: auto;
+    min-height: auto;
+    padding: 14px 16px;
+    text-align: left;
+
+    + .tile__action-item {
+      border-top: 1px solid $graphite-13;
+    }
+
+    .tile__action-icon {
+      float: left;
+      margin-right: 10px;
+      text-align: left;
+    }
+
+    .tile__action-title {
+      display: block;
+      float: none;
+      font-size: 16px;
+      line-height: 1.1;
+      text-align: left;
+    }
+
+    &:hover,
+    &:focus {
+      background: transparent;
+    }
+  }
+}
+
+.tile__action-subitems {
+  margin: 15px -16px 0;
+
+  .tile__actions--mode-normal & {
+    @include media-breakpoint-up(lg) {
+      @include actions-mode--more();
+      height: 0;
+      left: -200px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      right: inherit;
+      visibility: hidden;
+
+      .tile__action-icon {
+        display: none;
+      }
+    }
+  }
+
+  .actions-popup--is-showing & {
+    border-top: 0;
+    height: auto;
+    opacity: 1;
+    visibility: visible;
+    z-index: $zindex-nav-dropdown;
+
+    .tile__actions--overflow & {
+      border-top: 1px solid $graphite-13;
+    }
+  }
+}
+
+.tile__action-subitem {
+  @include clearfix;
+  color: $graphite-100;
+  display: block;
+  padding: 12px 41px;
+  transition: color .15s;
+
+  &:hover,
+  &:focus {
+    background: $graphite-5;
+    color: $graphite-100;
+    text-decoration: none;
+  }
+
+  .tile__action-title {
+    vertical-align: top;
+  }
+
+  .tile__action-icon {
+    display: inline;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-right: 12px;
+  }
+
+  + .tile__action-subitem {
+    .actions-popup--is-showing & {
+      border-top: 1px solid $graphite-13;
+    }
+  }
+}
+
+.tile__action-icon {
+  font-size: $font-size-base;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.tile__action-title {
+  font-size: $font-size-small;
+  text-align: center;
+}

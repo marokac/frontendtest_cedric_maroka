@@ -1,0 +1,102 @@
+@import "../../../../styles/common/variables";
+
+:host {
+    //margin-top: 14px;
+    display: block;
+    margin-top: 64px;
+}
+.page-title {
+    float: left;
+}
+.page-title h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: $white;
+    margin: 0;
+    float: left;
+}
+.page-title h1 span.separator {
+    font-weight: 100;
+    margin: 0px 10px 0px 10px;
+}
+.page-title h1 span.sub-title {
+    font-size: 18px;
+    font-weight: normal;
+}
+.page-title p {
+    font-size: 18px;
+    color: $white;
+    text-shadow: 0 1px 2px rgba($black, 0.09);
+    float: left;
+    margin: 0;
+    margin-top: -5px;
+}
+.page-title-collapsed .surephrase p {
+  line-height: 17px !important;
+  margin: 2px;
+}
+.page-title-collapsed .page-title h1 {
+  line-height: 23px !important;
+}
+.surephrase {
+    float: right;
+    color: $graphite-100;
+    text-align: right;
+    line-height: 36px;
+
+}
+.transactional {
+  padding: 22px;
+}
+.transactional .surephrase,
+.transactional .surephrase p,
+.transactional .surephrase p span {
+  color: $white !important;
+}
+.presentational .surephrase {
+  line-height: 18px
+}
+.surephrase p {
+    color: $graphite-100;
+    text-align: right;
+    font-size: 12px;
+    font-weight: 300;
+    margin: 0px;
+}
+.surephrase p span {
+    margin: 0;
+    color: $graphite-100;
+}
+.clearfix:after {
+   content: " ";
+   visibility: hidden;
+   display: block;
+   height: 0;
+   clear: both;
+}
+.page-greeting {
+    text-align: center;
+    color: $white;
+    font-size: 36px;
+    font-weight: 300;
+}
+
+.welcome-message-fonts {
+  font-size: 28px;
+  font-weight: 400;
+  padding: 20px;
+}
+
+.title-display {
+  display: none;
+}
+
+.title-fonts {
+  font-size: 28px;
+  font-weight: 400px;
+}
+
+.mobile-device-align {
+ text-align: center;
+ margin-top: -17px;
+}

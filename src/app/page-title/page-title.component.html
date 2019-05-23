@@ -1,0 +1,45 @@
+
+<div [ngSwitch]="data?.pageType"
+     fxLayout="column"
+     class="container-fluid"
+     [ngClass]="{
+      'transactional': data?.pageType === 'T'
+    }">
+  <div *ngSwitchCase="'T'"
+      fxLayout="row"
+      fxLayoutAlign="space-between stretch"
+      fxLayout.lt-md="column-reverse"
+      fxLayoutAlign.lt-md="center center"
+      ngClass.lt-lg="page-title-collapsed"
+    >
+    <div class="page-title">
+      <h1 [ngStyle.lt-md]="{'font-size': '24px'}" ngClass.lt-lg="title-fonts">{{data.subtitle}}</h1>
+    </div>
+    <div class="surephrase" ngClass.lt-md="mobile-device-fonts">
+      <p [ngStyle.lt-md]="{'text-align': 'center'}"><span>{{ dateTime }}</span> | {{'common.label.surePhrase'| translate}} : <strong> {{surephrase}} </strong></p>
+    </div>
+  </div>
+
+  <!-- For Dashboard -->
+  <div *ngSwitchCase="'P'"
+        fxLayout="column"
+      >
+    <div class="clearfix presentational"  >
+      <div class="page-title"></div>
+      <div class="surephrase">
+        <p><span>{{ dateTime }}</span> | {{'common.label.surePhrase'| translate}} : <strong> {{surephrase}} </strong></p>
+      </div>
+    </div>
+    <!-- <div *ngIf="!isdrawerOpen" class="page-greeting" >{{welcomeMessage}}</div> -->
+  </div>
+
+  <div *ngSwitchDefault>
+    <div class="page-title"></div>
+    <div class="surephrase" ngClass.lt-md="mobile-device-fonts">
+      <p> <span>{{ dateTime }}</span> | {{'common.label.surePhrase'| translate}} : <strong> {{surephrase}} </strong></p>
+
+    </div>
+  </div>
+</div>
+
+

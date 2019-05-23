@@ -1,0 +1,14 @@
+<div
+  class="tile__action-subitems"
+  #dropdown>
+  <a href=""
+    class="tile__action-subitem"
+    *ngFor="let item of subitems;"
+    (click)="actionClick($event, item)"
+    [attr.aria-label]="item.title">
+    <div class="tile__action-icon">
+      <span class="icon-chevron-right"></span>
+    </div>
+    <span class="tile__action-title">{{ item.title }}</span>
+  </a>
+</div>

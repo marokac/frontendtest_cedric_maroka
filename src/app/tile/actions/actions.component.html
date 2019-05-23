@@ -1,0 +1,56 @@
+<div
+  class="tile__actions tile__actions--mode-normal"
+  [ngClass]="{
+    'tile__actions--closed': itemData.actionsClosed,
+    'actions-popup--is-showing': currentPopup && currentPopup.popupIsShowing
+  }">
+
+  <a href=""
+    class="tile__action-item"
+    *ngFor="let item of itemData.actions; index as i;"
+    (click)="onActionClick($event, item)"
+    [attr.aria-label]="item.ariaLabel"
+    [attr.aria-haspopup]="item.actions ? true : false"
+    [attr.aria-expanded]="item.popupIsShowing ? 'true' : ''"
+    [ngClass]="{'actions-popup--is-showing': item.popupIsShowing, 'has-subitems': item.actions}">
+    <div class="tile__action-icon">
+      <span class="icon-{{ item.icon }}"></span>
+    </div>
+    <span class="tile__action-title">{{ item.title }}</span>
+
+    <actions-subitems *ngIf="item.actions" [subitems]="item.actions" (onActionClick)="onSubItemClick($event)"></actions-subitems>
+  </a>
+
+  <a href=""
+    class="tile__action-item is-overflow-action"
+    *ngFor="let item of itemData.actionsOverflow; index as i;"
+    (click)="onActionClick($event, item)"
+    [attr.aria-label]="item.ariaLabel"
+    [ngClass]="{'has-subitems': item.actions}">
+    <div class="tile__action-icon">
+      <span class="icon-{{ item.icon }}"></span>
+    </div>
+    <span class="tile__action-title">{{ item.title }}</span>
+
+    <actions-subitems *ngIf="item.actions" [subitems]="item.actions" (onActionClick)="onSubItemClick($event)"></actions-subitems>
+  </a>
+</div>
+
+<div
+  class="tile__actions tile__actions--overflow">
+  <a href=""
+    class="tile__action-item"
+    *ngFor="let item of itemData.actionsOverflow; index as i;"
+    (click)="onActionClick($event, item)"
+    [attr.aria-label]="item.ariaLabel"
+    [attr.aria-haspopup]="item.actions ? true : false"
+    [attr.aria-expanded]="item.popupIsShowing ? 'true' : ''"
+    [ngClass]="{'actions-popup--is-showing': item.popupIsShowing, 'has-subitems': item.actions}">
+    <div class="tile__action-icon">
+      <span class="icon-{{ item.icon }}"></span>
+    </div>
+    <span class="tile__action-title">{{ item.title }}</span>
+
+    <actions-subitems *ngIf="item.actions" [subitems]="item.actions" (onActionClick)="onSubItemClick($event)"></actions-subitems>
+  </a>
+</div>
